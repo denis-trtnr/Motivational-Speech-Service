@@ -12,6 +12,8 @@ Components:
 - Database with Cache
 - Loadbalancer
 
+![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
+
 
 ## Concrete Features
 
@@ -43,4 +45,7 @@ This section describes the feature / funconality that the components realize.
 ### Loadbalancer 
 - Loadbalancer for all components (LLS, TTS, Cache)
 
-  
+
+
+  ![image](https://github.com/user-attachments/assets/bbd017e6-d451-45e6-af28-1a78a0b5d582)
+

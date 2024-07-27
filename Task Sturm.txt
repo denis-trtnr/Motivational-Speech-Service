@@ -1,0 +1,9 @@
+Beleuchten sie die ihnen zugeteilte Laborarbeit auf der Basis der in der Vorlesung vermittelten theoretischen Grundlagen:
+− Welche Vorteile und Nachteile ergeben sich für Ihre Anwendung aus der Realisierung
+als Cloud Native? Zeigen Sie dabei auch alternative Realisierungsmöglichkeiten auf,
+stellen Sie diese Ihrer Cloud Native Lösung gegenüber und erörtern Sie kritisch.
+Unterlegen sie ihrer Argumentation mit konkreten Beispielen.
+− Wie gewährleisten Sie die Datensicherheit? Bewerten Sie dabei auch die Relevanz der
+DSGVO für Ihre Anwendung.
+− Skizzieren und begründen Sie abschließend welche Cloud Native Pattern sich wo in
+ihrer Anwendungsarchitektur wiederfinden.

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+  labels:
+    app: my-mariadb-deployment
+spec:
+  # A single mariadb instance
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-mariadb
+  template:
+    metadata:
+      labels:
+        app: my-mariadb
+    spec:
+      # Use the init container to download data to the location where the mariadb container expects it
+      initContainers:
+        - name: init-container-data-downloader
+          image: curlimages/curl
+          args:
+            - "-o"
+            - "/tmp/data/init.sql" # we are saving downloaded file as init.sql in /tmp/data directory
+            - "https://farberg.de/talks/big-data/code/docker-compose/mariadb-data.sql"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /tmp/data
+      # The actual mariadb database
+      containers:
+        - name: my-mariadb
+          image: mariadb
+          # Set required environment variables to initialize the container
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              value: "mysecretpw"
+            - name: MARIADB_DATABASE
+              value: "sportsdb"
+          # Mount the volume that has been populated by the init container
+          volumeMounts:
+            - name: data-volume
+              mountPath: /docker-entrypoint-initdb.d/
+          ports:
+            - containerPort: 3306
+
+          startupProbe: # 60*10s -> 10 min
+            tcpSocket:
+              port: 3306
+            failureThreshold: 60
+            periodSeconds: 10
+
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            periodSeconds: 10
+      # Define an empty volume to be shared by the init and mariadb container
+      volumes:
+        - name: data-volume
+          emptyDir: {}

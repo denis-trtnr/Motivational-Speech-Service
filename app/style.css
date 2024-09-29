@@ -1,0 +1,110 @@
+body {
+    padding: 20px;
+    font-family: Arial, sans-serif; /* Schriftart */
+    background-color: #f0f4f8; /* Helle Hintergrundfarbe */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px; /* Abstand unterm Titel */
+    color: #4a4a4a; /* Dunkelgrau */
+    font-size: 2.5rem; /* Titel etwas größer als Standard */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Bisschen Schatten */
+}
+
+.section {
+    padding: 20px;
+    border: 1px solid #ddd; /* Hellerer Rand */
+    border-radius: 8px;
+    background-color: #ffffff; /* Weißer Hintergrund */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Erhöhter Schatten */
+    margin-bottom: 20px; /* Abstand zw. Sektionen */
+    transition: transform 0.2s; /* Animation beim Hovern */
+}
+
+.section:hover {
+    transform: translateY(-5px); /* Bewegung Sektion beim Hovern */
+}
+
+.btn {
+    margin-top: 10px; /* Abstand nach oben für Buttons */
+    transition: background-color 0.2s; /* Animation bei Hover */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Buttonfarbe */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Dunklerer Hintergrung bei Hover */
+}
+
+.btn-success {
+    background-color: #28a745; /* Erfolgsfarbe */
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Dunkler beim Hovern */
+}
+
+.input-field,
+select,
+textarea {
+    border-radius: 4px; /* Abgerundete Ecken */
+    border: 1px solid #ccc; /* Heller Rand */
+    padding: 10px; /* Innenabstand */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff; /* Blau beim Fokussieren */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Schatten beim Fokussieren */
+}
+
+/* Textvorschlag Box */
+.suggestion-list {
+    padding: 10px; /* Innenabstand */
+    border-radius: 4px;
+    background-color: #f8f9fa; /* Hellere Hintergrundfarbe */
+    max-height: 200px; /* Max. Höhe */
+    overflow-y: auto; /* Scrollbar für Überlauf */
+}
+
+.suggestions-container {
+    display: flex;
+    flex-direction: column; /* Vorschläge */
+}
+
+.suggestion-item:hover {
+    background-color: #e2e6ea; /* Hintergrundfarbe beim Hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Schatten beim Hover */
+}
+
+.suggestion-item {
+    padding: 15px; 
+    margin: 5px 0; /* Abstand zw. Vorschlägen */
+    border: 1px solid #ccc; /* Rand um jeden Vorschlag */
+    border-radius: 4px; 
+    background-color: #ffffff; /* Weißer Hintergrund */
+    cursor: pointer; /* Zeigt an, dass es klickbar ist */
+    transition: background-color 0.2s; /* Animation bei Hover */
+    word-wrap: break-word; /* Zeilenumbrüche */
+    max-width: 100%; /* Maximalbreite */
+    overflow-wrap: break-word; /* Zeilenumbruch */
+}
+
+#generated-texts p {
+    background-color: #f8f9fa; /* Hellgraue Hintergrundfarbe */
+    border: 1px solid #ddd; /* Hellerer Rand */
+    border-radius: 4px; 
+    padding: 10px; 
+    margin: 10px 0; /* Abstand zw. Vorschlägen */
+    transition: background-color 0.3s; /* Sanfter Übergang */
+}
+
+#generated-texts p:hover {
+    background-color: #e2e6ea; /* Dunklere Hintergrundfarbe beim Hover */
+}

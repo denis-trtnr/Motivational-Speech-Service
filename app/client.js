@@ -1,6 +1,13 @@
 function updateSuggestion() {
     const inputField = document.getElementById("input-field");
     const suggestionText = document.getElementById("text-suggestion");
+    const words = inputField.value.trim().split(/\s+/);
+
+    if (words.length > 3) {
+        inputField.value = words.slice(0, 3).join(' ');
+        alert("Sie können nur maximal 3 Wörter eingeben."); // Feedback
+    }
+
     suggestionText.innerText = inputField.value || '--- Vorschlag ---'; 
 }
 

@@ -25,6 +25,8 @@
                         <p id="generated-text-2">--- Vorschlag 2 ---</p>
                         <p id="generated-text-3">--- Vorschlag 3 ---</p>
                     </div>
+                    <div class="action-buttons"></div>
+                        <button class="btn btn-secondary" id="download-btn">Download Speech</button>
                 </div>
             </div>
 
@@ -32,6 +34,7 @@
             <div class="col-md-4">
                 <div class="section input-section">
                     <h3>Input</h3>
+                    <p id="text-suggestion">Sie können bis zu 3 Wörter eingeben um ein Motivational Speech generieren zu lassen <span id="base-text">---</span></p>
                     <textarea class="form-control input-field" id="input-field" oninput="updateSuggestion()"></textarea>
                     <label for="mood-select">Stimmung</label>
                     <select class="form-select" id="mood-select">
@@ -53,7 +56,6 @@
                     </ul>
                     <div class="action-buttons">
                         <button class="btn btn-success" id="play-audio-btn">Play Audio</button>
-                        <button class="btn btn-secondary" id="download-btn">Download Speech</button>
                         <button id="download-audio" class="btn btn-info">Download Audio</button> 
                     </div>
                 </div>

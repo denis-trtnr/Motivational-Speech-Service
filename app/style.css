@@ -108,3 +108,35 @@ textarea:focus {
 #generated-texts p:hover {
     background-color: #e2e6ea; /* Dunklere Hintergrundfarbe beim Hover */
 }
+
+.suggestion-list ul {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    overflow-y: hidden; /* Verhindert Scrollen */
+    white-space: normal; /* Erlaubt Zeilenumbruch */
+    word-wrap: break-word; /* Erzwingt Umbrüche bei langen Wörtern */
+}
+
+.suggestion-list li {
+    list-style: none; /* Entfernung Aufzählungszeichen */
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #e9ecef; /* Grauer Hintergrund*/
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.suggestion-list {
+    max-height: none; /* Entfernt Höheneinschränkung sodass Box wächst */
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column; /* Buttons untereinander statt nebeneinander darstellen */
+    align-items: flex-start; /* Buttons linksbündig */
+}
+
+.action-buttons button {
+    margin-bottom: 10px; /* Abstand zw. Buttons */
+}

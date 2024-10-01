@@ -66,8 +66,8 @@ textarea:focus {
 
 /* Textvorschlag Box */
 .suggestion-list {
-    padding: 10px; /* Innenabstand */
-    border-radius: 4px;
+    padding: 20px; /* Innenabstand */
+    border-radius: 8px;
     background-color: #f8f9fa; /* Hellere Hintergrundfarbe */
     max-height: 200px; /* Max. Höhe */
     overflow-y: auto; /* Scrollbar für Überlauf */
@@ -110,7 +110,7 @@ textarea:focus {
 }
 
 .suggestion-list ul {
-    padding: 10px;
+    padding: 1px;
     border-radius: 4px;
     background-color: #f8f9fa;
     overflow-y: hidden; /* Verhindert Scrollen */
@@ -120,7 +120,6 @@ textarea:focus {
 
 .suggestion-list li {
     list-style: none; /* Entfernung Aufzählungszeichen */
-    margin: 5px 0;
     padding: 10px;
     background-color: #e9ecef; /* Grauer Hintergrund*/
     border-radius: 4px;
@@ -131,12 +130,12 @@ textarea:focus {
     max-height: none; /* Entfernt Höheneinschränkung sodass Box wächst */
 }
 
-.action-buttons {
-    display: flex;
-    flex-direction: column; /* Buttons untereinander statt nebeneinander darstellen */
-    align-items: flex-start; /* Buttons linksbündig */
+/* Abstand zwischen der Textarea und dem Auswahlfeld für die Stimmung */
+.input-section label {
+    margin-top: 20px; /* Abstand über dem Label */
+    display: block; /* Sicherstellen, dass das Label block-level ist */
 }
 
-.action-buttons button {
-    margin-bottom: 10px; /* Abstand zw. Buttons */
+#input-field {
+    margin-bottom: 20px; /* Abstand unter der Textarea */
 }

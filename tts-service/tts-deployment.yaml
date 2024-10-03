@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tts-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tts-service
+  template:
+    metadata:
+      labels:
+        app: tts-service
+    spec:
+      containers:
+        - name: tts-service
+          image: tts-service
+          imagePullPolicy: Never 
+          ports:
+            - containerPort: 5000

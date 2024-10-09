@@ -1,0 +1,3 @@
+ollama:
+  models: 
+    - llama3.2:1b

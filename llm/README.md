@@ -25,16 +25,16 @@ kubectl get services -n ms
 ```
 Here we should see a service called "ollama" and its ClusterIP.
 
-Now we can test if we can reach the service with its ClusterIP. Therefore we start a container for debugging with the following command: (TODO: herausfinden an welcher Stelle ich den Namespace anpassen kann in diesem Befehl)
+Now we can test if we can reach the service with its ClusterIP. Therefore we start a container in the same namespace like the ollama pod for debugging with the following command:
 
 ```
-kubectl run -i --tty --rm debug --image=curlimages/curl --restart=Never -- sh
+kubectl run -i --tty --rm debug -n ms --image=curlimages/curl --restart=Never -- sh
 ```
 In the shell of this pod (opens in your comamand line) you can enter the following command:
 
 ```
 curl http://ClusterIP:11434
-e.g.: curl http://10.98.109.206:11434
+e.g.: curl http://10.109.223.133:11434
 
 # output should be: "Ollama is running"
 ```
@@ -70,14 +70,21 @@ We want 3 different prompts so that we get 3 different answers. Therefore we wil
 #### Prompt 1
 ```
 Basierend auf den Kinderbüchern über Connie. Schreibe mir eine kurze motivierende Connie-Geschichte zu den folgenden 3 Stichwörtern: var_wort1, var_wort2, var_wort3
+
+
+Based on the children's books about Connie. Write me a short motivational Connie story using the following three keywords: exam, math, complicated. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.
 ```
 
 #### Prompt 2
 ```
 Ich bin aktuell sehr demotiviert. Kannst du mir eine kurze Motivationsrede schreiben im Kontext der folgenden 3 Wörter: var_wort1, var_wort2, var_wort3. Die Rede sollte maximal 100 Zeichen umfassen.
+
+The user is currently feeling very demotivated. Can you write a short motivational speech in the context of the following three words: exam, math, complicated? The speech should be between 60 and 100 characters long.
 ```
 
 #### Prompt 3
 ```
 Kannst du mir einen motivierenden kurzen Reim oder ein Gedicht schreiben, dass mich motivieren kann. Der Kontext des Reims/Gedichts sollen die folgenden 3 Wörter sein: var_wort1, var_wort2, var_wort3
+
+Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: exam, math, complicated.
 ```

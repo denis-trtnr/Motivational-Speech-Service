@@ -3,7 +3,7 @@ const express = require('express')
 const { addAsync } = require('@awaitjs/express')
 const path = require('path');
 const app = addAsync(express())
-// const mariadb = require('mariadb')
+const mariadb = require('mariadb')
 
 app.use(express.static(path.join(__dirname)));
 
@@ -13,14 +13,14 @@ app.get('/', (req, res) => {
 });
 
 //Database configuration
-/* const pool = mariadb.createPool({
+ const pool = mariadb.createPool({
     host: 'my-app-mariadb-service',
-    database: 'sportsdb',
+    database: 'motivationalspeechsdb',
     user: 'root',
     password: 'mysecretpw',
     connectionLimit: 5
 })
-
+/*
 //Get data from database
 //async function getFromDatabase(userid) {
     let connection
@@ -43,7 +43,40 @@ app.get('/', (req, res) => {
         if (connection)
             connection.end()
     }
-} 
+}
+
+//Store data to database
+//async function storeToDatabase(input, mood, speech_proposal, audioFilePath) {
+
+    if (!fs.existsSync(audioFilePath)) {
+        console.error('Audiodatei existiert nicht:', audioFilePath);
+        return;
+    }
+
+    let connection
+    let query = `
+        INSERT INTO audio_entries (input, mood, speech_proposal, audio_file)
+        VALUES (?, ?, ?, LOAD_FILE(?))
+     `;
+
+     let values = [input, mood, speechProposal, audioFilePath];
+
+    try {
+        connection = await pool.getConnection()
+        console.log("Executing query " + query)
+        connection.query(sql, values, (error, results) => {
+            if (error) {
+                console.error('Fehler beim Einfügen des Eintrags:', error);
+                return;
+            }
+            console.log('Eintrag erfolgreich gespeichert:', results.insertId);
+        });
+
+    } finally {
+        if (connection)
+            connection.end()
+    }
+}
 
 // Redirect to a default person/speech
 app.get('/', function (request, response) {

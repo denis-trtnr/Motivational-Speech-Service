@@ -17,28 +17,29 @@ spec:
     spec:
       # Use the init container to download data to the location where the mariadb container expects it
       initContainers:
-        - name: init-container-data-downloader
-          image: curlimages/curl
-          args:
-            - "-o"
-            - "/tmp/data/init.sql" # we are saving downloaded file as init.sql in /tmp/data directory
-            - "https://farberg.de/talks/big-data/code/docker-compose/mariadb-data.sql"
+        - name: init-mariadb-db
+          image: busybox
+          command: [ 'sh', '-c', 'cp /config/mariadb-database.sql /docker-entrypoint-initdb.d/' ]
           volumeMounts:
-            - name: data-volume
-              mountPath: /tmp/data
+            - name: mariadb-init-sql
+              mountPath: /config
+            - name: mariadb-initdb
+              mountPath: /docker-entrypoint-initdb.d/
       # The actual mariadb database
       containers:
         - name: my-mariadb
-          image: mariadb
+          image: mariadb:latest
           # Set required environment variables to initialize the container
           env:
             - name: MARIADB_ROOT_PASSWORD
               value: "mysecretpw"
             - name: MARIADB_DATABASE
-              value: "sportsdb"
+              value: "motivationalspeechsdb"
           # Mount the volume that has been populated by the init container
           volumeMounts:
-            - name: data-volume
+            - name: mariadb-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: mariadb-initdb
               mountPath: /docker-entrypoint-initdb.d/
           ports:
             - containerPort: 3306
@@ -55,5 +56,37 @@ spec:
             periodSeconds: 10
       # Define an empty volume to be shared by the init and mariadb container
       volumes:
-        - name: data-volume
-          emptyDir: {}
+        - name: mariadb-init-sql
+          configMap:
+            name: mariadb-init-sql-configmap
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb-pvc
+        - name: mariadb-initdb
+          emptyDir: { }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-init-sql-configmap
+data:
+  mariadb-database.sql: |
+    CREATE TABLE `motivanional_speeches` (
+        id INT AUTO_INCREMENT PRIMARY KEY,      -- Automatisch inkrementierende ID
+        input VARCHAR(255),                     -- Textfeld für Input
+        mood VARCHAR(50),                       -- Textfeld für Mood (Stimmung)
+        speech_proposal VARCHAR(255),           -- Textfeld für Textvorschlag
+        audio_file LONGBLOB                     -- Audiodatei im binären Format  
+    );

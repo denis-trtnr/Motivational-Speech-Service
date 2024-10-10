@@ -22,22 +22,23 @@ app.get('/', (req, res) => {
 })
 /*
 //Get data from database
-//async function getFromDatabase(userid) {
+//async function getFromDatabase() {
     let connection
-    let query = 'SELECT birth_date from persons WHERE person_key = ? LIMIT 1'
+    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 10'
 
     try {
         connection = await pool.getConnection()
         console.log("Executing query " + query)
-        let res = await connection.query(query, [userid])
-        let row = res[0]
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Fehler bei der Abfrage:', error);
+                callback(error, null);
+                return;
+            }
 
-        if (row) {
-            console.log("Query result = ", row)
-            return row["birth_date"];
-        } else {
-            return null;
-        }
+            // Erfolgreiche Abfrage
+            console.log('Daten abgerufen:', results);
+        });
 
     } finally {
         if (connection)
@@ -55,7 +56,7 @@ app.get('/', (req, res) => {
 
     let connection
     let query = `
-        INSERT INTO audio_entries (input, mood, speech_proposal, audio_file)
+        INSERT INTO motivational_speeches (input, mood, speech_proposal, audio_file)
         VALUES (?, ?, ?, LOAD_FILE(?))
      `;
 

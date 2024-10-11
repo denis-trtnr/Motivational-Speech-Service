@@ -6,6 +6,7 @@ const app = addAsync(express())
 const mariadb = require('mariadb')
 
 app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
 
 // Root-Route, die index.html aus dem public-Ordner lädt bzw (__dirname, "public"..) oben genauso
 app.get('/', (req, res) => {

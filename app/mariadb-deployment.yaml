@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mariadb-deployment
   labels:
-    app: my-mariadb-deployment
+    app: my-mariadb
 spec:
   # A single mariadb instance
   replicas: 1
@@ -64,6 +64,7 @@ spec:
             claimName: mariadb-pvc
         - name: mariadb-initdb
           emptyDir: { }
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -82,8 +83,8 @@ kind: ConfigMap
 metadata:
   name: mariadb-init-sql-configmap
 data:
-  mariadb-database.sql: |
-    CREATE TABLE `motivanional_speeches` (
+  mariadb-database.sql: |  
+    CREATE TABLE motivational_speeches (
         id INT AUTO_INCREMENT PRIMARY KEY,      -- Automatisch inkrementierende ID
         input VARCHAR(255),                     -- Textfeld für Input
         mood VARCHAR(50),                       -- Textfeld für Mood (Stimmung)

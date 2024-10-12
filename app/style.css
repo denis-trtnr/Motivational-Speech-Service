@@ -139,3 +139,26 @@ textarea:focus {
 #input-field {
     margin-bottom: 20px; /* Abstand unter der Textarea */
 }
+
+#history-section {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Abstand nach oben */
+}
+
+#history-list {
+    list-style-type: none; /* Entfernt Aufzählungspunkte */
+    padding: 0;
+}
+
+#history-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Linie zwischen Einträgen */
+}
+
+#history-list li:last-child {
+    border-bottom: none; /* Entfernt die letzte Linie */
+}

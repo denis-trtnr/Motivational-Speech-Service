@@ -54,8 +54,12 @@ This section describes the feature / funconality that the components realize.
 ```
 minikube start --addons=Ingress
 & minikube docker-env | Invoke-Expression
+# oder
+minikube docker-env
+
+
 docker build -t my-super-web-app .
 kubectl apply -f app-deployment-minikube.yaml
-kubectl apply -f .\app-service-and-ingress.yaml
+kubectl apply -f app-service-and-ingress.yaml
 minikube service my-super-app-service --url 
 ```

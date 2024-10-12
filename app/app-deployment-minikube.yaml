@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: myexpressapp
-          image: my-super-web-app
+          image: my-super-web-app:v1
           imagePullPolicy: Never # Uses Minikubes Docker image repo (minikube only)
           ports:
             - containerPort: 8080

@@ -1,3 +1,15 @@
+const mariadb = require('mariadb')
+
+//Database configuration
+const pool = mariadb.createPool({
+    host: 'my-app-mariadb-service',
+    database: 'motivationalspeechsdb',
+    user: 'root',
+    password: 'mysecretpw',
+    connectionLimit: 5
+})
+
+
 function updateSuggestion() {
     const inputField = document.getElementById("input-field");
     const suggestionText = document.getElementById("text-suggestion");
@@ -138,6 +150,32 @@ document.getElementById("download-audio").addEventListener("click", function () 
 });
 
 
+//Get data from database
+async function getFromDatabase() {
+    let connection
+    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 10;'
+
+    try {
+        connection = await pool.getConnection()
+        console.log("Executing query " + query)
+        connection.query(query, (error, results) => {
+            if (error) {
+                console.error('Fehler bei der Abfrage:', error);
+                callback(error, null);
+                return;
+            }
+
+            // Erfolgreiche Abfrage
+            console.log('Daten abgerufen:', results);
+            return (results);
+        });
+
+    } finally {
+        if (connection)
+            connection.end()
+    }
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
@@ -238,8 +276,7 @@ fetch(url, {
     console.error('Fetch error:', error);
 });
 
-
-/*  methode um die letezn abfragen anzuzeigen
+ /* methode um die letezn abfragen anzuzeigen
 // Funktion, um die letzten Einträge zu laden und anzuzeigen
 async function loadHistory() {
     const response = await fetch('/history');

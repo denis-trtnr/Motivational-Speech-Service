@@ -81,3 +81,22 @@ docker build -t my-super-web-app .
 kubectl rollout restart deployment my-super-app-deployment
 minikube service my-super-app-service --url
 ```
+
+
+```
+minikube start --addons=Ingress
+minikube addons enable ingress
+@FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
+docker build -t my-super-web-app .
+kubectl apply -f mariadb-deployment.yaml
+kubectl apply -f k8s-mariadb-service.yaml
+kubectl apply -f app-deployment-minikube.yaml
+kubectl apply -f app-service-and-ingress.yaml
+kubectl get all
+minikube service my-super-app-service --url 
+
+kubectl delete -f mariadb-deployment.yaml
+kubectl delete -f k8s-mariadb-service.yaml
+kubectl delete -f app-deployment-minikube.yaml
+kubectl delete -f app-service-and-ingress.yaml
+```

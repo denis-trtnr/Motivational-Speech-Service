@@ -5,6 +5,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+
 app.use(express.static(path.join(__dirname)));
 app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
 
@@ -20,3 +22,5 @@ app.set('port', (process.env.PORT || 8080))
 app.listen(app.get('port'), function () {
 	console.log("Node app is running at localhost:" + app.get('port'))
 })
+
+

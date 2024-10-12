@@ -13,7 +13,7 @@ spec:
         app: tts-service
     spec:
       containers:
-        - name: tts-service
+        - name: tts-container
           image: tts-service
           imagePullPolicy: Never 
           ports:

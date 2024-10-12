@@ -56,34 +56,10 @@ minikube start --addons=Ingress
 & minikube docker-env | Invoke-Expression
 # oder
 minikube docker-env
-
-
-docker build -t my-super-web-app .
-kubectl apply -f app-deployment-minikube.yaml
-kubectl apply -f app-service-and-ingress.yaml
-minikube service my-super-app-service --url 
 ```
 
 ```
-minikube start
-minikube addons enable ingress
-minikube start --addons=Ingress
-& minikube docker-env | Invoke-Expression
-docker build -t my-super-web-app .
-kubectl apply -f app-deployment-minikube.yaml
-kubectl apply -f .\app-service-and-ingress.yaml
-get pods
-minikube ip
-minikube service my-super-app-service --url 
-
-Nach Änderungen Image neu bauen:
-docker build -t my-super-web-app .
-kubectl rollout restart deployment my-super-app-deployment
-minikube service my-super-app-service --url
-```
-
-
-```
+## Deployment starten
 minikube start --addons=Ingress
 minikube addons enable ingress
 @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
@@ -93,10 +69,23 @@ kubectl apply -f k8s-mariadb-service.yaml
 kubectl apply -f app-deployment-minikube.yaml
 kubectl apply -f app-service-and-ingress.yaml
 kubectl get all
+
+##Testdaten anlegen (solange wir noch nichts in die DB speichern
+kubectl get pods
+kubectl exec -ti <mariadb-deployment-POD-ID> -- mariadb -u root --password=mysecretpw
+USE motivationalspeechsdb;
+INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 1', 'sad', 'LALALA');
+INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 2', 'sad', 'LALALA');
+INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 3', 'sad', 'LALALA');
+SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 10;
+exit
+
+##Webseite öffnen --> da werden jetzt die eingefügten Daten angezeigt
 minikube service my-super-app-service --url 
 
-kubectl delete -f mariadb-deployment.yaml
-kubectl delete -f k8s-mariadb-service.yaml
-kubectl delete -f app-deployment-minikube.yaml
+##Undeploy
 kubectl delete -f app-service-and-ingress.yaml
+kubectl delete -f app-deployment-minikube.yaml
+kubectl delete -f k8s-mariadb-service.yaml
+kubectl delete -f mariadb-deployment.yaml
 ```

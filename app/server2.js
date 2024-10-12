@@ -20,40 +20,8 @@ app.get('/test', (req, res) => {
     res.send('Hello, this is a test response!');
 });
 
+
 /*
-//Database configuration
- const pool = mariadb.createPool({
-    host: 'my-app-mariadb-service',
-    database: 'motivationalspeechsdb',
-    user: 'root',
-    password: 'mysecretpw',
-    connectionLimit: 5
-})
-/*
-//Get data from database
-//async function getFromDatabase() {
-    let connection
-    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 10'
-
-    try {
-        connection = await pool.getConnection()
-        console.log("Executing query " + query)
-        connection.query(query, (error, results) => {
-            if (error) {
-                console.error('Fehler bei der Abfrage:', error);
-                callback(error, null);
-                return;
-            }
-
-            // Erfolgreiche Abfrage
-            console.log('Daten abgerufen:', results);
-        });
-
-    } finally {
-        if (connection)
-            connection.end()
-    }
-}
 
 //Store data to database
 //async function storeToDatabase(input, mood, speech_proposal, audioFilePath) {

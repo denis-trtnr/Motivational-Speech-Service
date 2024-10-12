@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+import io
+from flask import Flask, request, jsonify, send_file
 from transformers import BarkModel, AutoProcessor
 from datetime import datetime
 import scipy
@@ -43,15 +44,30 @@ def text_to_speech():
         with torch.no_grad():
             speech_output = model.generate(**inputs.to(device))
 
+
         # Create a timestamp for the filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"output_{timestamp}.wav"
-
+        """
         # Save the generated audio using scipy
         output_path = os.path.join("results", filename)
         scipy.io.wavfile.write(output_path, rate=sampling_rate, data=speech_output[0].cpu().numpy())
 
         return jsonify({"message": "Audio generated successfully", "file": output_path}), 200
+        """
+
+        # Convert the generated tensor to numpy array
+        audio_data = speech_output[0].cpu().numpy()
+
+        # Create an in-memory buffer to store the audio data
+        buffer = io.BytesIO()
+        
+        # Save the generated audio data to the buffer in WAV format using soundfile
+        sf.write(buffer, audio_data, samplerate=sampling_rate, format='WAV')
+        buffer.seek(0)  # Move the buffer position to the start
+
+        # Return the audio as a file-like object
+        return send_file(buffer, mimetype='audio/wav', as_attachment=True, download_name=filename)
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

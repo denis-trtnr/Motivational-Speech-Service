@@ -1,4 +1,4 @@
-CREATE TABLE `motivational_speeches` (
+CREATE TABLE motivational_speeches (
     id INT AUTO_INCREMENT PRIMARY KEY,      -- Automatisch inkrementierende ID
     input VARCHAR(255),                     -- Textfeld für Input
     mood VARCHAR(50),                       -- Textfeld für Mood (Stimmung)

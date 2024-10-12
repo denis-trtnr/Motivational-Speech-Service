@@ -14,9 +14,9 @@
     "inefficient": "^1.2.0",
     "mariadb": "^3.0.0",
     "memcache-plus": "^0.2.22",
+    "node-fetch": "^2.7.0",
     "nodejs-dokku-app": "file:"
   },
-  "devDependencies": {},
   "keywords": [],
   "description": ""
 }

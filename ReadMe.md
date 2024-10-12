@@ -63,3 +63,21 @@ kubectl apply -f app-deployment-minikube.yaml
 kubectl apply -f app-service-and-ingress.yaml
 minikube service my-super-app-service --url 
 ```
+
+```
+minikube start
+minikube addons enable ingress
+minikube start --addons=Ingress
+& minikube docker-env | Invoke-Expression
+docker build -t my-super-web-app .
+kubectl apply -f app-deployment-minikube.yaml
+kubectl apply -f .\app-service-and-ingress.yaml
+get pods
+minikube ip
+minikube service my-super-app-service --url 
+
+Nach Änderungen Image neu bauen:
+docker build -t my-super-web-app .
+kubectl rollout restart deployment my-super-app-deployment
+minikube service my-super-app-service --url
+```

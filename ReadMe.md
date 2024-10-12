@@ -49,3 +49,13 @@ This section describes the feature / funconality that the components realize.
 
   ![image](https://github.com/user-attachments/assets/bbd017e6-d451-45e6-af28-1a78a0b5d582)
 
+
+### How to start that shit:
+```
+minikube start --addons=Ingress
+& minikube docker-env | Invoke-Expression
+docker build -t my-super-web-app .
+kubectl apply -f app-deployment-minikube.yaml
+kubectl apply -f .\app-service-and-ingress.yaml
+minikube service my-super-app-service --url 
+```

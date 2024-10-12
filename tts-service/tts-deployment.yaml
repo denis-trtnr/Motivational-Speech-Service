@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tts-container
-          image: tts-service
+          image: tts-service:latest
           imagePullPolicy: Never 
           ports:
             - containerPort: 5000

@@ -1,12 +1,13 @@
+const os = require('os');
 const express = require('express');
+const { addAsync } = require('@awaitjs/express')
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve the index.html file
-app.get('/test', (req, res) => {
-    res.send('Hello, this is a test response!');
-});
+app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

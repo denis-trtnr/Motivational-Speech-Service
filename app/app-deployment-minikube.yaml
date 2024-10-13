@@ -21,3 +21,5 @@ spec:
           env:
             - name: TTS_API_URL
               value: "http://tts-service:5000"
+            - name: LLM_URL
+              value: "http://ollama:11434"

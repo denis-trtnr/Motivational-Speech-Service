@@ -12,15 +12,48 @@ function updateSuggestion() {
 }
 
 function generateText() {
+    // Benutzereingaben holen
     const inputField = document.getElementById("input-field").value;
     const moodSelect = document.getElementById("mood-select").value;
     const suggestionText = document.getElementById("text-suggestion");
-    suggestionText.innerText = `Generierter Text basierend auf: "${inputField.value}"`;
+    suggestionText.innerText = `Generierter Text basierend auf: "${inputField}", "${moodSelect}"`;
 
-    // update generierter Text in p-elements
-    //document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField.value}`;
-    //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
-    //document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${inputField.value}`;
+    // Beispielhafter generierter Text (du kannst hier deine eigene Logik einfügen)
+    const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
+
+    // Die Daten, die an den Server gesendet werden sollen
+    const data = {
+        input: inputField,
+        mood: moodSelect,
+        speech_proposal: generatedSpeech
+    };
+
+    // Daten an den Server senden
+    fetch('/api/speeches', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        }
+        throw new Error('Fehler beim Speichern der Daten');
+    })
+    .then(result => {
+        console.log(result);
+        // Erfolgreiches Speichern
+        alert('Die Rede wurde erfolgreich gespeichert!');
+    })
+    .catch(error => {
+        console.error('Fehler:', error);
+        alert('Fehler beim Speichern der Rede.');
+    });
+
+
+//----------------------------------------
     
     // Vorbereitung der Daten für den POST-Request
     const requestData = {
@@ -39,8 +72,10 @@ function generateText() {
     .then(response => response.json())
     .then(data => {
         // Antwortdaten im DOM aktualisieren
-        document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${data.message}`;
-        document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${data.message}`;
+        document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField}`;
+        document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
+        //document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${data.message}`;
+        //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${data.message}`;
         document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${data.message}`;
     })
     .catch(error => {

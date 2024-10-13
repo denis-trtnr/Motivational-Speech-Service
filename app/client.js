@@ -12,129 +12,95 @@ function updateSuggestion() {
 }
 
 function generateText() {
+
+    alert("Test")
+    document.getElementById("generated-text-1").innerText = `Vorschlag 1: Ich raste aus`;
+
+    /*
     // Benutzereingaben holen
     const inputField = document.getElementById("input-field").value;
     const moodSelect = document.getElementById("mood-select").value;
-    
-    //const suggestionText = document.getElementById("text-suggestion");
-    //suggestionText.innerText = `Generierter Text basierend auf: "${inputField}", "${moodSelect}"`;
 
-    // Beispielhafter generierter Text (du kannst hier deine eigene Logik einfügen)
-    //const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
+    alert("Input "+ inputField)
 
+
+    // Generate 3 different prompts with the users input
     const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+inputField+'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
     const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+inputField+'? The speech should be between 60 and 100 characters long.';
     const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+inputField+'.';
 
+    // Generate the motivational speeches with the 3 diffrent prompts
     const generatedSpeech1 = generateSpeech(prompt1);
     const generatedSpeech2 = generateSpeech(prompt2);
     const generatedSpeech3 = generateSpeech(prompt3);
 
-    console.log(generatedSpeech1);
-    
-    /* // Die Daten, die an den Server gesendet werden sollen
-    const data_db = {
-        input: inputField,
-        mood: moodSelect,
-        speech_proposal: generatedSpeech1
-    };
-
-    // Daten an den Server senden
-    fetch('/api/speeches', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data_db),
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.text();
-        }
-        throw new Error('Fehler beim Speichern der Daten');
-    })
-    .then(result => {
-        console.log(result);
-        // Erfolgreiches Speichern
-        alert('Die Rede wurde erfolgreich gespeichert!');
-    })
-    .catch(error => {
-        console.error('Fehler:', error);
-        alert('Fehler beim Speichern der Rede.');
-    }); */
-
-
-//----------------------------------------
-
     // update generierter Text in p-elements
-    document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField}`;
-    //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
-    //document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${inputField.value}`;
-    
-    /* // Vorbereitung der Daten für den POST-Request
-    const requestData = {
-        prompt: inputField,
-        mood: moodSelect
-    };
+    document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${prompt1}`;
+    document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${prompt2}`;
+    document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${prompt3}`;
 
-    // Senden der Daten an die /generate-Route auf dem Server
-    fetch('/generate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Antwortdaten im DOM aktualisieren
-        document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField}`;
-        //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
-        //document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${data.message}`;
-        document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${data.message}`;
-        document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${data.message}`;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    }); */
+     */
+
 }
 
-function generateSpeech(prompt) {
-    
-    const url = 'http://10.97.99.85:11434/api/generate';
-    const headers = {
-        'Content-Type': 'application/json'
-    };
 
-    const data = {
-        model: 'llama3.2:1b',
-        prompt: prompt,
-        stream: false,
-        format: 'json',
-    };
+async function generateSpeech(prompt) {
 
-    fetch(url, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(data)
-    })
-    .then(response => {
+    try {
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: prompt })
+        });
+
         if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
+            throw new Error(`Server error: ${response.statusText}`);
         }
-        //return response.json();
-    })
-    .then(data => {
-        const actualResponse = data.response;
-        console.log(actualResponse);
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-    });
 
-    return actualResponse.json();
-};
+        const data = await response.json();
+        return data.response; // Die generierte Rede
 
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function saveData(){
+
+    /* // Die Daten, die an den Server gesendet werden sollen
+      const data_db = {
+          input: inputField,
+          mood: moodSelect,
+          speech_proposal: generatedSpeech1
+      };
+
+      // Daten an den Server senden
+      fetch('/api/speeches', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data_db),
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.text();
+          }
+          throw new Error('Fehler beim Speichern der Daten');
+      })
+      .then(result => {
+          console.log(result);
+          // Erfolgreiches Speichern
+          alert('Die Rede wurde erfolgreich gespeichert!');
+      })
+      .catch(error => {
+          console.error('Fehler:', error);
+          alert('Fehler beim Speichern der Rede.');
+      }); */
+
+}
 
 //Funktion um Auswahl zu treffen
 function selectSuggestion(element) {

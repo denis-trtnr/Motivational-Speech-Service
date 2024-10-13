@@ -1,4 +1,5 @@
 const os = require('os');
+const fetch = require('node-fetch');
 const express = require('express');
 const { addAsync } = require('@awaitjs/express')
 const path = require('path');
@@ -73,6 +74,47 @@ app.post('/api/speeches', async (req, res) => {
         res.status(500).send('Fehler beim Speichern der Daten');
     } finally {
         if (connection) connection.end();
+    }
+});
+
+// API-Endpunkt zum Generieren der Motivationsrede
+app.post('/api/generate', async (req, res) => {
+    const { prompt } = req.body;  // Die Daten, die vom Client gesendet werden
+
+    console.log("Getting promt: "+ prompt)
+
+    if (!prompt) {
+        return res.status(400).send('Fehlende Felder');
+    }
+
+    const url = 'http://10.104.171.206:11434/api/generate';
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        model: 'llama3.2:1b',
+        prompt: prompt,
+        stream: false,
+        format: 'json',
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            return res.status(response.status).send(`Error: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        return res.json(result);
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).send('Internal Server Error');
     }
 });
 

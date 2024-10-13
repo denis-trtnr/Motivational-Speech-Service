@@ -26,7 +26,7 @@ const pool = mariadb.createPool({
 //Get data from database
 async function getFromDatabase() {
     let connection
-    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 5;'
+    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 15;'
     let results
 
     try {
@@ -53,6 +53,29 @@ app.get('/api/speeches', async (req, res) => {
         res.status(500).send('Fehler beim Abrufen der Daten');
     }
 });
+
+// API-Endpunkt zum Speichern von Benutzereingaben in der Datenbank
+app.post('/api/speeches', async (req, res) => {
+    const { input, mood, speech_proposal } = req.body;  // Die Daten, die vom Client gesendet werden
+    
+    if (!input || !mood || !speech_proposal) {
+        return res.status(400).send('Fehlende Felder');
+    }
+
+    let connection;
+    try {
+        connection = await pool.getConnection();
+        const query = 'INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES (?, ?, ?)';
+        await connection.query(query, [input, mood, speech_proposal]); // Daten in die DB einfügen
+        res.status(201).send('Daten erfolgreich gespeichert');
+    } catch (error) {
+        console.error('Fehler beim Speichern der Daten:', error);
+        res.status(500).send('Fehler beim Speichern der Daten');
+    } finally {
+        if (connection) connection.end();
+    }
+});
+
 
 //----------------------------------------------------------------------------
 

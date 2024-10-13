@@ -35,22 +35,6 @@
     <div class="container">
       <h1>Speechgenerator</h1>
         <div class="row">
-
-            <!-- Linke Box: Textvorschlag -->
-            <div class="col-md-4">
-                <div class="section text-suggestion">
-                    <h3>Textvorschlag</h3>
-                    <p id="text-suggestion">Generierter Text basierend auf: <span id="base-text">---</span></p>
-                    <div id="generated-texts">
-                        <p id="generated-text-1">--- Vorschlag 1 ---</p>
-                        <p id="generated-text-2">--- Vorschlag 2 ---</p>
-                        <p id="generated-text-3">--- Vorschlag 3 ---</p>
-                    </div>
-                    <div class="action-buttons"></div>
-                        <button class="btn btn-secondary" id="download-btn">Download Speech</button>
-                </div>
-            </div>
-
             <!-- Mittlere Box: Input und Stimmung -->
             <div class="col-md-4">
                 <div class="section input-section">
@@ -71,11 +55,13 @@
             <!-- Rechte Box: Auswahl -->
             <div class="col-md-4">
                 <div class="section suggestion-list">
-                    <h3>Auswahl</h3>
+                    <h3>Textvorschlag</h3>
+                    <p id="text-suggestion">Generierter Text basierend auf: <span id="base-text">---</span></p>
                     <ul>
                         <li>"Deine Auswahl"</li>
                     </ul>
                     <div class="action-buttons">
+                        <button class="btn btn-secondary" id="download-btn">Download Speech</button>
                         <button class="btn btn-success" id="play-audio-btn">Play Audio</button>
                         <button id="download-audio" class="btn btn-info">Download Audio</button> 
                     </div>

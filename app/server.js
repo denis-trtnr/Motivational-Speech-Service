@@ -11,6 +11,7 @@ app.use(express.static(path.join(__dirname)));
 app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
 
 const ttsApiUrl = process.env.TTS_API_URL || "http://localhost:5000";
+const llmApiUrl = process.env.LLM_URL || "http://localhost:11434";
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -121,7 +122,7 @@ app.post('/api/generate', async (req, res) => {
         return res.status(400).send('Fehlende Felder');
     }
 
-    const url = 'http://10.104.171.206:11434/api/generate';
+    //const url = 'http://10.104.171.206:11434/api/generate';
     const headers = {
         'Content-Type': 'application/json'
     };
@@ -134,7 +135,7 @@ app.post('/api/generate', async (req, res) => {
     };
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${llmApiUrl}/api/generate`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(data)

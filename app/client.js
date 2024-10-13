@@ -93,6 +93,37 @@ async function generateSpeech(prompt) {
     }
 }
 
+async function generateAudio(text, speaker = null) {
+    const requestBody = {
+        text: text,
+    };
+
+    try {
+        // Send POST request to the backend
+        const response = await fetch('/api/tts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        // Get audio data as blob
+        const audioBlob = await response.blob();
+
+        // Return the blob to the caller
+        return audioBlob;
+    } catch (error) {
+        console.error("Error generating audio:", error);
+        throw error;  // Re-throw the error to be handled by the caller
+    }
+}
+
 /*
 async function saveData(){
 
@@ -165,7 +196,7 @@ document.getElementById('download-btn').addEventListener('click', function() {
     document.body.removeChild(downloadLink);
 });
 
-
+/*
 document.getElementById('play-audio-btn').addEventListener('click', function() {
     const selectedTextElement = document.querySelector('.suggestion-list ul li');
     const selectionText = selectedTextElement ? selectedTextElement.innerText : 'Keine Auswahl';
@@ -185,6 +216,7 @@ document.getElementById('play-audio-btn').addEventListener('click', function() {
         alert('Web Speech API wird von diesem Browser nicht unterstützt.');
     }
 });
+*/
 
 function selectSuggestion(element) {
     const selectedText = element.innerText;
@@ -216,7 +248,59 @@ document.getElementById("download-audio").addEventListener("click", function () 
     }
 });
 
+// Event listener for the "Generate Audio" button
+document.getElementById('play-audio-btn').addEventListener('click', async function () {
+    const generatedText = document.getElementById('generated-text-1').textContent.trim();
+    
+    if (!generatedText || generatedText.startsWith("---")) {
+        //alert("Please select or generate a valid text before generating audio.");
+        //return;
+        generatedText = "Hello, welcome to our cool Motivational Speech service!";
+    }
 
+    try {
+        // Call the TTS API to generate the audio
+        const audioBlob = await generateAudio("Hello, welcome to our cool Motivational Speech service!");
+
+        // Create a URL for the audio and set it for the "audio" element to play
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        // Update the "audio" element and play the audio
+        const audioElement = new Audio(audioUrl);
+        audioElement.play();
+        console.log("Audio successfully generated and played.");
+
+        // Update the download button with the generated audio URL
+        const downloadButton = document.getElementById('download-audio');
+        downloadButton.href = audioUrl;
+        downloadButton.download = 'generated_speech.wav';
+        downloadButton.style.display = 'inline';  // Show the download button if it was hidden
+    } catch (error) {
+        alert("Failed to generate audio. Please try again.");
+    }
+});
+
+/*
+document.getElementById('play-audio-btn').addEventListener('click', function() {
+    const selectedTextElement = document.querySelector('.suggestion-list ul li');
+    const selectionText = selectedTextElement ? selectedTextElement.innerText : 'Keine Auswahl';
+
+    if ('speechSynthesis' in window) {
+        // Instanz von SpeechSynthesisUtterance erstellen
+        const utterance = new SpeechSynthesisUtterance(selectionText);
+
+        // Einstellungen für Stimme und Geschwindigkeit
+        utterance.rate = 0.9; // Geschwindigkeit
+        utterance.pitch = 1; // Tonhöhe
+        utterance.volume = 1; // Lautstärke
+
+        // Startet die Sprachausgabe
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert('Web Speech API wird von diesem Browser nicht unterstützt.');
+    }
+});
+*/
 
 //----------------------------------------------------------------------------------------------------------------------------------
 

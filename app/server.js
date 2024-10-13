@@ -56,6 +56,39 @@ app.get('/api/speeches', async (req, res) => {
     }
 });
 
+app.post('/api/tts', async (req, res) => {
+    try {
+        const { text, speaker } = req.body;
+        console.log(`Calling TTS service with text: ${text}, speaker: ${speaker}`);
+
+        // Making a POST request to the TTS service
+        const ttsResponse = await fetch(`${ttsApiUrl}/tts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text })
+        });
+
+        if (!ttsResponse.ok) {
+            const errorMessage = await ttsResponse.text();
+            console.error('TTS Service Error:', errorMessage);
+            return res.status(ttsResponse.status).send(`Error: ${errorMessage}`);
+        }
+
+        // Read the audio data as a buffer
+        const audioBuffer = await ttsResponse.buffer();
+
+        // Set the response headers for the WAV file
+        res.set('Content-Type', 'audio/wav');
+        res.send(audioBuffer); // Send the buffer containing the WAV file to the client
+    } catch (error) {
+        console.error('Error calling TTS service:', error);
+        res.status(500).send({ error: 'TTS service error' });
+    }
+});
+
+
 // API-Endpunkt zum Speichern von Benutzereingaben in der Datenbank
 app.post('/api/speeches', async (req, res) => {
     const { input, mood, speech_proposal } = req.body;  // Die Daten, die vom Client gesendet werden
@@ -120,20 +153,6 @@ app.post('/api/generate', async (req, res) => {
     }
 });
 
-app.post('/api/tts', async (req, res) => {
-    try {
-        const { text, speaker } = req.body;
-        const ttsResponse = await axios.post('http://tts-service:5000/tts', { text, speaker }, {
-            responseType: 'blob'
-        });
-
-        res.set('Content-Type', 'audio/wav');
-        res.send(ttsResponse.data);
-    } catch (error) {
-        console.error('Error calling TTS service:', error);
-        res.status(500).send({ error: 'TTS service error' });
-    }
-});
 
 
 //----------------------------------------------------------------------------

@@ -18,3 +18,6 @@ spec:
           imagePullPolicy: Never # Uses Minikubes Docker image repo (minikube only)
           ports:
             - containerPort: 8080
+          env:
+            - name: TTS_API_URL
+              value: "http://tts-service:5000"

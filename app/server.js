@@ -10,6 +10,7 @@ const mariadb = require('mariadb')
 app.use(express.static(path.join(__dirname)));
 app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
 
+const ttsApiUrl = process.env.TTS_API_URL || "http://localhost:5000";
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -115,6 +116,21 @@ app.post('/api/generate', async (req, res) => {
     } catch (error) {
         console.error('Error:', error);
         return res.status(500).send('Internal Server Error');
+    }
+});
+
+app.post('/api/tts', async (req, res) => {
+    try {
+        const { text, speaker } = req.body;
+        const ttsResponse = await axios.post('http://tts-service:5000/tts', { text, speaker }, {
+            responseType: 'blob'
+        });
+
+        res.set('Content-Type', 'audio/wav');
+        res.send(ttsResponse.data);
+    } catch (error) {
+        console.error('Error calling TTS service:', error);
+        res.status(500).send({ error: 'TTS service error' });
     }
 });
 

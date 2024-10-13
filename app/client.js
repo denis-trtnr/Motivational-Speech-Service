@@ -147,7 +147,7 @@ document.querySelectorAll('#generated-texts p').forEach(p => {
 
 document.getElementById('download-btn').addEventListener('click', function() {
     // Holt Text aus Auswahlbox (z.B. erster Listeneintrag)
-    const selectionText = document.querySelector('.suggestion-list ul li').innerText;
+   const selectionText = document.getElementById('generated-text-1').innerText;
 
     // Erstelle Blob-Objekt mit dem Text
     const blob = new Blob([selectionText], { type: 'text/plain' });

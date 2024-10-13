@@ -96,6 +96,7 @@ async function generateSpeech(prompt) {
 async function generateAudio(text, speaker = null) {
     const requestBody = {
         text: text,
+        speaker: speaker
     };
 
     try {
@@ -253,20 +254,31 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     const generatedText = document.getElementById('generated-text-1').textContent.trim();
     
     if (!generatedText || generatedText.startsWith("---")) {
-        //alert("Please select or generate a valid text before generating audio.");
-        //return;
-        generatedText = "Hello, welcome to our cool Motivational Speech service!";
+        alert("Please select or generate a valid text before generating audio.");
+        return;
     }
 
+    // Show the loading spinner
+    document.getElementById('loading-spinner').style.display = 'block';
+    
+    // Hide the audio element and the download button until audio is ready
+    document.getElementById('audioOutput').style.display = 'none';
+    document.getElementById('download-audio').style.display = 'none';
+
+    //TODO: Replace static strings
     try {
         // Call the TTS API to generate the audio
-        const audioBlob = await generateAudio("Hello, welcome to our cool Motivational Speech service!");
+        const audioBlob = await generateAudio("Test", "v2/en_speaker_6");
 
         // Create a URL for the audio and set it for the "audio" element to play
         const audioUrl = URL.createObjectURL(audioBlob);
 
-        // Update the "audio" element and play the audio
-        const audioElement = new Audio(audioUrl);
+        // Update the audio element with the generated audio and show it
+        const audioElement = document.getElementById('audioOutput');
+        audioElement.src = audioUrl;
+        audioElement.style.display = 'block';  // Show the audio player
+
+        // Auto-play the audio after it's generated
         audioElement.play();
         console.log("Audio successfully generated and played.");
 
@@ -274,9 +286,12 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
         const downloadButton = document.getElementById('download-audio');
         downloadButton.href = audioUrl;
         downloadButton.download = 'generated_speech.wav';
-        downloadButton.style.display = 'inline';  // Show the download button if it was hidden
+        downloadButton.style.display = 'inline';
     } catch (error) {
         alert("Failed to generate audio. Please try again.");
+    } finally {
+        // Hide the loading spinner after the process is completed
+        document.getElementById('loading-spinner').style.display = 'none';
     }
 });
 

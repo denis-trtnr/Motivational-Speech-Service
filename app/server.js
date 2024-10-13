@@ -68,7 +68,7 @@ app.post('/api/tts', async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ text })
+            body: JSON.stringify({ text, speaker })
         });
 
         if (!ttsResponse.ok) {
@@ -82,6 +82,7 @@ app.post('/api/tts', async (req, res) => {
 
         // Set the response headers for the WAV file
         res.set('Content-Type', 'audio/wav');
+        console.log("Sending the response");
         res.send(audioBuffer); // Send the buffer containing the WAV file to the client
     } catch (error) {
         console.error('Error calling TTS service:', error);

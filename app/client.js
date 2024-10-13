@@ -22,11 +22,26 @@ function generateText() {
     // Beispielhafter generierter Text (du kannst hier deine eigene Logik einfügen)
     const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
 
+    // Generate 3 different prompts with the users input
+    const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
+    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long.';
+    const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
+
+    // Generate the motivational speeches with the 3 diffrent prompts
+    const generatedSpeech1 = generateSpeech(prompt1);
+    const generatedSpeech2 = generateSpeech(prompt2);
+    const generatedSpeech3 = generateSpeech(prompt3);
+
+    // update generierter Text in p-elements
+    document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${generatedSpeech1}`;
+    document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${generatedSpeech2}`;
+    document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${generatedSpeech3}`;
+
     // Die Daten, die an den Server gesendet werden sollen
     const data = {
         input: inputField,
         mood: moodSelect,
-        speech_proposal: generatedSpeech
+        speech_proposal: generatedSpeech1
     };
 
     // Daten an den Server senden
@@ -52,24 +67,6 @@ function generateText() {
             console.error('Fehler:', error);
             alert('Fehler beim Speichern der Rede.');
         });
-
-
-    // Generate 3 different prompts with the users input
-    const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
-    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long.';
-    const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
-
-    // Generate the motivational speeches with the 3 diffrent prompts
-    const generatedSpeech1 = generateSpeech(prompt1);
-    const generatedSpeech2 = generateSpeech(prompt2);
-    const generatedSpeech3 = generateSpeech(prompt3);
-
-    // update generierter Text in p-elements
-    document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${generatedSpeech1}`;
-    document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${generatedSpeech2}`;
-    document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${generatedSpeech3}`;
-
-
 }
 
 
@@ -275,8 +272,6 @@ const run = async () => {
 run().catch(console.error) */
 
 //----------------------------------------------------------------------
-
-
 
 
 

@@ -54,6 +54,11 @@ function generateText() {
 
 
 //----------------------------------------
+
+    // update generierter Text in p-elements
+    document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField}`;
+    //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
+    //document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${inputField.value}`;
     
     // Vorbereitung der Daten für den POST-Request
     const requestData = {
@@ -73,17 +78,15 @@ function generateText() {
     .then(data => {
         // Antwortdaten im DOM aktualisieren
         document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${inputField}`;
-        document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
+        //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
         //document.getElementById("generated-text-1").innerText = `Vorschlag 1: ${data.message}`;
-        //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${data.message}`;
+        document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${data.message}`;
         document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${data.message}`;
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
-
-
 
 //Funktion um Auswahl zu treffen
 function selectSuggestion(element) {
@@ -176,10 +179,7 @@ document.getElementById("download-audio").addEventListener("click", function () 
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-
-// Nutzen der Ollama Funktionen
-/* 
-//möglich, dass erst gewisse sachen installiert werden müssen
+/* Nutzen der Ollama Funktionen - möglich, dass erst gewisse sachen installiert werden müssen
 
 import ollama from 'ollama'
 
@@ -232,6 +232,8 @@ run().catch(console.error) */
 
 //----------------------------------------------------------------------
 
+
+//muss noch als funktion verpackt werden ggf in generatetext ergänzen
 // ganz normale REST Abfragen
 
 //localhost muss hier dann noch gegen die ClusterIP ausgetauscht werden - die kann erst ausgelesen werden, wenn das Helm Chart ausgerollt wurde
@@ -246,9 +248,6 @@ const data = {
     prompt: 'Why is the sky blue?',
     stream: false,
     format: 'json',
-    options: {
-        temperature: 0.8 //der Wert muss noch ausgetauscht werden durch die Nutzereingabe (WErte zwiscshen 0 und 1)
-    }
 };
 
 fetch(url, {
@@ -270,8 +269,9 @@ fetch(url, {
     console.error('Fetch error:', error);
 });
 
- /* methode um die letezn abfragen anzuzeigen
-// Funktion, um die letzten Einträge zu laden und anzuzeigen
+
+//man kann wahrscheinlich um den code zu vershcönern html script hier auslagern
+ /* methode um die letezn Einträge zu laden und anzuzeigen
 async function loadHistory() {
     const response = await fetch('/history');
     const data = await response.json();

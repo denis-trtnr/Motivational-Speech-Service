@@ -15,7 +15,7 @@
             fetch('/api/speeches')  // API-Aufruf, um die Daten zu holen
                 .then(response => response.json())  // Antwort in JSON umwandeln
                 .then(data => {
-                    const container = document.getElementById('history-container'); // Container zum Einfügen der Daten
+                    const container = document.getElementById('generated-texts'); // Container zum Einfügen der Daten
                     data.forEach(speech => {
                         const speechElement = document.createElement('div');
                         speechElement.innerHTML = `
@@ -35,6 +35,18 @@
     <div class="container">
       <h1>Speechgenerator</h1>
         <div class="row">
+
+            <!-- Linke Box: Textvorschlag -->
+            <div class="col-md-4">
+                <div class="section text-suggestion">
+                    <h3>History</h3>
+                    <p id="text-suggestion">Generierter Text basierend auf: <span id="base-text">---</span></p>
+                    <div id="generated-texts">
+                        <!-- Die Historie werden hier angezeigt -->
+                    </div>
+                </div>
+            </div>
+
             <!-- Mittlere Box: Input und Stimmung -->
             <div class="col-md-4">
                 <div class="section input-section">
@@ -55,28 +67,16 @@
             <!-- Rechte Box: Auswahl -->
             <div class="col-md-4">
                 <div class="section suggestion-list">
-                    <h3>Textvorschlag</h3>
-                    <p id="text-suggestion">Generierter Text basierend auf: <span id="base-text">---</span></p>
-                    <ul>
-                        <li>"Deine Auswahl"</li>
-                        <p id="generated-text-1">--- Vorschlag 1 ---</p>
-                    </ul>
+                    <h3>Auswahl</h3>
+                    <div id="generated-texts">
+                        <p id="generated-text-1">--- Vorschlag 12 ---</p>
+                    </div>
                     <div class="action-buttons">
                         <button class="btn btn-secondary" id="download-btn">Download Speech</button>
                         <button class="btn btn-success" id="play-audio-btn">Play Audio</button>
                         <button id="download-audio" class="btn btn-info">Download Audio</button> 
                     </div>
                 </div>
-            </div>
-
-            <!-- Historie-Bereich -->
-            <div class="section" id="history-section">
-                <h3>History</h3>
-                <ul id="history-list" >
-                    <div id="history-container">
-                        <!-- Die Historie werden hier angezeigt -->
-                    </div>
-                </ul>
             </div>
 
         </div>

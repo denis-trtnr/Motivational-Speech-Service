@@ -15,17 +15,28 @@ function generateText() {
     // Benutzereingaben holen
     const inputField = document.getElementById("input-field").value;
     const moodSelect = document.getElementById("mood-select").value;
-    const suggestionText = document.getElementById("text-suggestion");
-    suggestionText.innerText = `Generierter Text basierend auf: "${inputField}", "${moodSelect}"`;
+    
+    //const suggestionText = document.getElementById("text-suggestion");
+    //suggestionText.innerText = `Generierter Text basierend auf: "${inputField}", "${moodSelect}"`;
 
     // Beispielhafter generierter Text (du kannst hier deine eigene Logik einfügen)
-    const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
+    //const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
 
-    // Die Daten, die an den Server gesendet werden sollen
-    const data = {
+    const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+inputField+'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
+    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+inputField+'? The speech should be between 60 and 100 characters long.';
+    const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+inputField+'.';
+
+    const generatedSpeech1 = generateSpeech(prompt1);
+    const generatedSpeech2 = generateSpeech(prompt2);
+    const generatedSpeech3 = generateSpeech(prompt3);
+
+    console.log(generatedSpeech1);
+    
+    /* // Die Daten, die an den Server gesendet werden sollen
+    const data_db = {
         input: inputField,
         mood: moodSelect,
-        speech_proposal: generatedSpeech
+        speech_proposal: generatedSpeech1
     };
 
     // Daten an den Server senden
@@ -34,7 +45,7 @@ function generateText() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data_db),
     })
     .then(response => {
         if (response.ok) {
@@ -50,7 +61,7 @@ function generateText() {
     .catch(error => {
         console.error('Fehler:', error);
         alert('Fehler beim Speichern der Rede.');
-    });
+    }); */
 
 
 //----------------------------------------
@@ -60,7 +71,7 @@ function generateText() {
     //document.getElementById("generated-text-2").innerText = `Vorschlag 2: ${inputField.value}`;
     //document.getElementById("generated-text-3").innerText = `Vorschlag 3: ${inputField.value}`;
     
-    // Vorbereitung der Daten für den POST-Request
+    /* // Vorbereitung der Daten für den POST-Request
     const requestData = {
         prompt: inputField,
         mood: moodSelect
@@ -85,8 +96,45 @@ function generateText() {
     })
     .catch(error => {
         console.error('Error:', error);
-    });
+    }); */
 }
+
+function generateSpeech(prompt) {
+    
+    const url = 'http://10.97.99.85:11434/api/generate';
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        model: 'llama3.2:1b',
+        prompt: prompt,
+        stream: false,
+        format: 'json',
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        //return response.json();
+    })
+    .then(data => {
+        const actualResponse = data.response;
+        console.log(actualResponse);
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+
+    return actualResponse.json();
+};
+
 
 //Funktion um Auswahl zu treffen
 function selectSuggestion(element) {
@@ -233,41 +281,7 @@ run().catch(console.error) */
 //----------------------------------------------------------------------
 
 
-//muss noch als funktion verpackt werden ggf in generatetext ergänzen
-// ganz normale REST Abfragen
 
-//localhost muss hier dann noch gegen die ClusterIP ausgetauscht werden - die kann erst ausgelesen werden, wenn das Helm Chart ausgerollt wurde
-const url = 'http://localhost:11434/api/generate';
-
-const headers = {
-    'Content-Type': 'application/json'
-};
-
-const data = {
-    model: 'llama3.2:1b',
-    prompt: 'Why is the sky blue?',
-    stream: false,
-    format: 'json',
-};
-
-fetch(url, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-    }
-    return response.json();
-})
-.then(data => {
-    const actualResponse = data.response;
-    console.log(actualResponse);
-})
-.catch(error => {
-    console.error('Fetch error:', error);
-});
 
 
 //man kann wahrscheinlich um den code zu vershcönern html script hier auslagern

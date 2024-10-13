@@ -1,24 +1,24 @@
 //import ollama from 'ollama'
-//const os = require('os');
+const os = require('os');
 const express = require('express');
-//const { addAsync } = require('@awaitjs/express')
+const { addAsync } = require('@awaitjs/express')
 const path = require('path');
-const app = addAsync(express());
-//const mariadb = require('mariadb')
+//const app = addAsync(express());
+const mariadb = require('mariadb')
 //const fetch = require('node-fetch');  // Falls noch nicht installiert: npm install node-fetch
 const PORT = process.env.PORT || 3000;
 
-//app.use(express.static(path.join(__dirname)));
-//app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
+app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
 
 // Root-Route, die index.html aus dem public-Ordner lädt bzw (__dirname, "public"..) oben genauso
-//app.get('/', (req, res) => {
-//    res.sendFile(path.join(__dirname, 'index.html'));
-//});
-
-app.get('/test', (req, res) => {
-    res.send('Hello, this is a test response!');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
+
+//app.get('/test', (req, res) => {
+//    res.send('Hello, this is a test response!');
+//});
 
 
 /*
@@ -76,7 +76,7 @@ app.get('/', function (request, response) {
 
 
 
-// //-------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
 
 
 
@@ -165,13 +165,6 @@ app.get('/', function (request, response) {
 //     //}
 // });
 
-// // Route, um die letzten Einträge abzufragen
-// app.getAsync('/history', async (req, res) => {
-//     res.json({
-//         history: history
-//     });
-// });
-
 // // Löschen ? Beispiel für eine GET-Route (z.B. für Motivationsrede für einen bestimmten User)
 // app.getAsync('/speech/:id', async function (req, res) {
 //     let userid = req.params["id"];
@@ -185,9 +178,7 @@ app.get('/', function (request, response) {
 
 
 
-
 //---------------------------------------------------------------------------------------------
-
 
 
 

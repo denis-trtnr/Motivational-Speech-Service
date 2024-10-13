@@ -111,8 +111,9 @@ app.post('/api/generate', async (req, res) => {
             return res.status(response.status).send(`Error: ${response.statusText}`);
         }
 
-        const result = await response.json();
-        return res.json(result);
+        const result = await response.json()
+        return result.response;
+
     } catch (error) {
         console.error('Error:', error);
         return res.status(500).send('Internal Server Error');

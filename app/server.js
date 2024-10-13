@@ -146,13 +146,15 @@ app.post('/api/generate', async (req, res) => {
         }
 
         const result = await response.json()
-        return result.response;
+        return res.json(result.response);
 
     } catch (error) {
         console.error('Error:', error);
         return res.status(500).send('Internal Server Error');
     }
 });
+
+
 
 
 

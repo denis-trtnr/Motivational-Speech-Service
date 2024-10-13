@@ -60,6 +60,9 @@ minikube docker-env
 
 ```
 ## Deployment starten
+
+## Cluster IP in server.js für ollama API anpassen (Zeile 90)
+
 minikube start --addons=Ingress
 minikube addons enable ingress
 @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i

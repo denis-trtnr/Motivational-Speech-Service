@@ -272,7 +272,7 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     //TODO: Replace static strings
     try {
         // Call the TTS API to generate the audio
-        const audioBlob = await generateAudio("Test");
+        const audioBlob = await generateAudio(generatedText);
 
         // Create a URL for the audio and set it for the "audio" element to play
         const audioUrl = URL.createObjectURL(audioBlob);

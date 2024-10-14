@@ -93,7 +93,7 @@ helm repo update
 
 helm upgrade ollama ollama-helm/ollama --namespace ms --values values.yaml
 ```
-The pod needs a few minutes to come up, because the model is already
+The pod needs a few minutes to come up, because the model is already pulled.
 
 
 ### 5. Deploy the Text-to-Speech (TTS) Service
@@ -106,9 +106,10 @@ kubectl apply -f tts-service.yaml -n ms
 
 ### 6. Build and Deploy Other Services in the following order
 ```
-docker build --no-cache -t my-super-web-app .
 kubectl apply -f mariadb-deployment.yaml -n ms
 kubectl apply -f k8s-mariadb-service.yaml -n ms
+
+docker build --no-cache -t my-super-web-app .
 kubectl apply -f app-deployment-minikube.yaml -n ms
 kubectl apply -f app-service-and-ingress.yaml -n ms
 ```
@@ -116,7 +117,7 @@ kubectl apply -f app-service-and-ingress.yaml -n ms
 ### 7. Access the Web App
 To access the deployed web application, use the following command to retrieve the URL:
 ```
-minikube service my-super-app-service --url
+minikube service -n ms my-super-app-service --url
 ```
 
 

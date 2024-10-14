@@ -112,7 +112,7 @@ kubectl apply -f app-service-and-ingress.yaml -n ms
 ### 7. Access the Web App
 To access the deployed web application, use the following command to retrieve the URL:
 ```
-minikube service my-super-app-service --url
+minikube service -n ms my-super-app-service --url
 ```
 
 

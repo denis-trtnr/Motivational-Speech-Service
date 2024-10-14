@@ -51,7 +51,7 @@ function extractCleanText(jsonString) {
 }
 
 
-// Function to call the API at server and generate the speech
+// Function to call the LLM-API at server and generate the speech
 async function generateSpeech(prompt) {
 
     try {
@@ -75,7 +75,7 @@ async function generateSpeech(prompt) {
     }
 }
 
-// Function to call the API at server and save the data
+// Function to call the Database-API at server and save the data
 async function saveData(data_db){
 
     fetch('/api/speeches', {
@@ -101,7 +101,7 @@ async function saveData(data_db){
         });
 }
 
-// Function to call the API at server and generate the audio
+// Function to call the TTS-API at server and generate the audio
 async function generateAudio(text, speaker = null) {
     const requestBody = {
         text: text,

@@ -19,12 +19,10 @@ async function generateText() {
 
     suggestionText.innerText = `Generated speech based of: "${inputField}", "${moodSelect}"`;
 
-    //const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
-    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long and should not contain smileys or special characters.';
-    // const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
+    const prompt = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long and should not contain smileys or special characters.';
 
     // Generate the motivational speeches
-    const generatedSpeech = await generateSpeech(prompt2)
+    const generatedSpeech = await generateSpeech(prompt)
     document.getElementById("generated-text-1").innerText = extractCleanText(generatedSpeech);
 
     // Data to save
@@ -163,7 +161,7 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     // Show the loading spinner
     document.getElementById('loading-spinner').style.display = 'block';
     
-    // Hide the audio element and the download button until audio is ready
+    // Hide the audio element until audio is ready
     document.getElementById('audioOutput').style.display = 'none';
 
     try {
@@ -181,12 +179,6 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
         // Auto-play the audio after it's generated
         audioElement.play();
         console.log("Audio successfully generated and played.");
-
-        // Update the download button with the generated audio URL
-        const downloadButton = document.getElementById('download-audio');
-        downloadButton.href = audioUrl;
-        downloadButton.download = 'generated_speech.wav';
-        downloadButton.style.display = 'inline';
     } catch (error) {
         alert("Failed to generate audio. Please try again.");
     } finally {

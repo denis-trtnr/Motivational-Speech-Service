@@ -44,7 +44,13 @@ This section outlines the functionality that each component of the system implem
 
 ## 📹 Screencast
 
-[Watch the video](Screencast.mp4)
+[Link to the file](Screencast.mp4)
+
+
+
+https://github.com/user-attachments/assets/872b9495-22c0-4317-baad-8424283be15d
+
+
 
 ## 🚀 How to Get Started
 

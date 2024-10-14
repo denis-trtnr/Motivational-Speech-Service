@@ -101,7 +101,6 @@ async function generateSpeech(prompt) {
 async function generateAudio(text, speaker = null) {
     const requestBody = {
         text: text,
-        speaker: speaker
     };
 
     try {
@@ -273,7 +272,7 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     //TODO: Replace static strings
     try {
         // Call the TTS API to generate the audio
-        const audioBlob = await generateAudio("Test", "v2/en_speaker_6");
+        const audioBlob = await generateAudio("Test");
 
         // Create a URL for the audio and set it for the "audio" element to play
         const audioUrl = URL.createObjectURL(audioBlob);

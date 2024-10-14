@@ -102,9 +102,10 @@ kubectl apply -f tts-service.yaml -n ms
 
 ### 6. Build and Deploy Other Services in the following order
 ```
-docker build --no-cache -t my-super-web-app .
 kubectl apply -f mariadb-deployment.yaml -n ms
 kubectl apply -f k8s-mariadb-service.yaml -n ms
+
+docker build --no-cache -t my-super-web-app .
 kubectl apply -f app-deployment-minikube.yaml -n ms
 kubectl apply -f app-service-and-ingress.yaml -n ms
 ```

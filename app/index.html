@@ -20,8 +20,8 @@
                         const speechElement = document.createElement('div');
                         speechElement.innerHTML = `
                                             <p><strong>Input:</strong> ${speech.input}</p>
-                                            <p><strong>Stimmung:</strong> ${speech.mood}</p>
-                                            <p><strong>Vorschlag:</strong> ${speech.speech_proposal}</p>
+                                            <p><strong>Mood:</strong> ${speech.mood}</p>
+                                            <p><strong>Generated speech:</strong> ${speech.speech_proposal}</p>
                                             <hr>`;
                         container.appendChild(speechElement); // Füge jede Rede zum Container hinzu
                     });
@@ -40,7 +40,6 @@
             <div class="col-md-4">
                 <div class="section text-suggestion">
                     <h3>History</h3>
-                    <p id="text-suggestion">Generierter Text basierend auf: <span id="base-text">---</span></p>
                     <div id="generated-texts">
                         <!-- Die Historie werden hier angezeigt -->
                     </div>
@@ -51,25 +50,34 @@
             <div class="col-md-4">
                 <div class="section input-section">
                     <h3>Input</h3>
-                    <p id="text-suggestion">Sie können bis zu 3 Wörter eingeben um ein Motivational Speech generieren zu lassen <span id="base-text">---</span></p>
+                    <p>You can enter up to 3 words to generate a motivational speech <span id="base-text"></span></p>
                     <textarea class="form-control input-field" id="input-field" oninput="updateSuggestion()"></textarea>
                     <label for="mood-select">Stimmung</label>
                     <select class="form-select" id="mood-select">
                         <option value="neutral">Neutral</option>
-                        <option value="happy">Glücklich</option>
-                        <option value="sad">Traurig</option>
-                        <option value="angry">Wütend</option>
+                        <option value="happy">Happy</option>
+                        <option value="Grateful">Grateful</option>
+                        <option value="Hopeful">Hopeful</option>
+                        <option value="Joyful">Joyful</option>
+                        <option value="Satisfied">Satisfied</option>
+                        <option value="Dissatisfied">Dissatisfied</option>
+                        <option value="Demotivated">Demotivated</option>
+                        <option value="Mad">Mad</option>
+                        <option value="Sad">Sad</option>
+                        <option value="angry">Angry</option>
+
                     </select>
-                    <button class="btn btn-primary mt-3" onclick="generateText()">Generieren</button>
+                    <button class="btn btn-primary mt-3" onclick="generateText()">Generate speech</button>
                 </div>
             </div>
 
             <!-- Rechte Box: Auswahl -->
             <div class="col-md-4">
                 <div class="section suggestion-list">
-                    <h3>Auswahl</h3>
+                    <h3>Generated speech</h3>
+                    <p id="text-suggestion">Generated speechs based of: <span id="base-text">---</span></p>
                     <div id="generated-texts">
-                        <p id="generated-text-1">--- Vorschlag 12 ---</p>
+                        <p id="generated-text-1">--- Output ---</p>
                     </div>
                     <div class="action-buttons">
                         <button class="btn btn-secondary" id="download-btn">Download Speech</button>

@@ -1,14 +1,12 @@
 function updateSuggestion() {
     const inputField = document.getElementById("input-field");
-    const suggestionText = document.getElementById("text-suggestion");
     const words = inputField.value.trim().split(/\s+/);
 
     if (words.length > 3) {
         inputField.value = words.slice(0, 3).join(' ');
-        alert("Sie können nur maximal 3 Wörter eingeben."); // Feedback
+        alert("You can only enter a maximum of 3 words."); // Feedback
     }
 
-    suggestionText.innerText = inputField.value || '--- Vorschlag ---'; 
 }
 
 async function generateText() {
@@ -17,10 +15,8 @@ async function generateText() {
     const moodSelect = document.getElementById("mood-select").value;
     const suggestionText = document.getElementById("text-suggestion");
 
-    suggestionText.innerText = `Generierter Text basierend auf: "${inputField}", "${moodSelect}"`;
+    suggestionText.innerText = `Generated speech based of: "${inputField}", "${moodSelect}"`;
 
-    // Beispielhafter generierter Text (du kannst hier deine eigene Logik einfügen)
-    const generatedSpeech = "Beispielvorschlag basierend auf " + inputField + " und Stimmung " + moodSelect;
 
     // Generate 3 different prompts with the users input
     const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
@@ -28,19 +24,18 @@ async function generateText() {
     const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
 
     // Generate the motivational speeches
-    const generatedSpeech1 = await generateSpeech(prompt3)
-    const result = extractCleanText(JSON.stringify(generatedSpeech1))
+    const generatedSpeech = await generateSpeech(prompt2)
 
 
     // update generierter Text in p-elements
-    document.getElementById("generated-text-1").innerText = `${result}`;
+    document.getElementById("generated-text-1").innerText = extractCleanText(generatedSpeech);
 
 
     // Die Daten, die an den Server gesendet werden sollen
     const data = {
         input: inputField,
         mood: moodSelect,
-        speech_proposal: result
+        speech_proposal: extractCleanText(generatedSpeech)
     };
 
     // Daten an den Server senden
@@ -60,11 +55,11 @@ async function generateText() {
         .then(result => {
             console.log(result);
             // Erfolgreiches Speichern
-            alert('Die Rede wurde erfolgreich gespeichert!');
+            alert('The speech has been successfully saved!');
         })
         .catch(error => {
             console.error('Fehler:', error);
-            alert('Fehler beim Speichern der Rede.');
+            alert('Error when saving the speech.');
         });
 }
 

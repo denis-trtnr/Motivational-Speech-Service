@@ -66,7 +66,7 @@ minikube docker-env
 minikube start --addons=Ingress
 minikube addons enable ingress
 @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
-docker build -t my-super-web-app .
+docker build --no-cache -t my-super-web-app .
 kubectl apply -f mariadb-deployment.yaml
 kubectl apply -f k8s-mariadb-service.yaml
 kubectl apply -f app-deployment-minikube.yaml

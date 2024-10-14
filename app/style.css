@@ -1,166 +1,143 @@
 body {
     padding: 20px;
-    font-family: Arial, sans-serif; /* Schriftart */
-    background-color: #f0f4f8; /* Helle Hintergrundfarbe */
+    font-family: Arial, sans-serif; /* Font */
+    background-color: #f0f4f8;  /* Light background colour */
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 40px; /* Abstand unterm Titel */
-    color: #4a4a4a; /* Dunkelgrau */
-    font-size: 2.5rem; /* Titel etwas größer als Standard */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Bisschen Schatten */
+    margin-bottom: 40px; /*  Spacing under title */
+    color: #4a4a4a; /* Dark grey */
+    font-size: 2.5rem; /* Title slightly larger than standard */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Bit of shadow */
 }
 
 .section {
     padding: 20px;
-    border: 1px solid #ddd; /* Hellerer Rand */
+    border: 1px solid #ddd; /* Lighter border  */
     border-radius: 8px;
-    background-color: #ffffff; /* Weißer Hintergrund */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Erhöhter Schatten */
-    margin-bottom: 20px; /* Abstand zw. Sektionen */
-    transition: transform 0.2s; /* Animation beim Hovern */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Increased shadow */
+    margin-bottom: 20px; /* Distance between sections */
+    transition: transform 0.2s; /* Animation when hovering */
 }
 
 .section:hover {
-    transform: translateY(-5px); /* Bewegung Sektion beim Hovern */
+    transform: translateY(-5px); /* Moveing section on hover */
 }
 
 .btn {
-    margin-top: 10px; /* Abstand nach oben für Buttons */
-    transition: background-color 0.2s; /* Animation bei Hover */
+    margin-top: 10px; /* Distance to the top for buttons */
+    transition: background-color 0.2s; /* Animation on Hover */
 }
 
 .btn-primary {
-    background-color: #007bff; /* Buttonfarbe */
+    background-color: #007bff; /* Buttoncolour */
     border: none;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Dunklerer Hintergrung bei Hover */
+    background-color: #0056b3; /* Darker Backgroung on Hover */
 }
 
 .btn-success {
-    background-color: #28a745; /* Erfolgsfarbe */
+    background-color: #28a745; /* sucess-colour */
     border: none;
 }
 
 .btn-success:hover {
-    background-color: #218838; /* Dunkler beim Hovern */
+    background-color: #218838; /* Darker when hovering */
 }
 
 .input-field,
 select,
 textarea {
-    border-radius: 4px; /* Abgerundete Ecken */
-    border: 1px solid #ccc; /* Heller Rand */
-    padding: 10px; /* Innenabstand */
+    border-radius: 4px; /* Rounded corners */
+    border: 1px solid #ccc; /* Lighter border */
+    padding: 10px; /* Inner spacing */
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-    border-color: #007bff; /* Blau beim Fokussieren */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Schatten beim Fokussieren */
+    border-color: #007bff; /* Blue when focussing */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Shadow when focussing */
 }
 
 /* Textvorschlag Box */
 .suggestion-list {
-    padding: 20px; /* Innenabstand */
+    padding: 20px; /* Inner spacing */
     border-radius: 8px;
-    background-color: #f8f9fa; /* Hellere Hintergrundfarbe */
-    max-height: 200px; /* Max. Höhe */
-    overflow-y: auto; /* Scrollbar für Überlauf */
+    background-color: #f8f9fa; /* Lighter background colour */
+    max-height: 200px; /* Max. Height */
+    overflow-y: auto; /* Scrollbar for overflow */
 }
 
 .suggestions-container {
     display: flex;
-    flex-direction: column; /* Vorschläge */
+    flex-direction: column; /* Suggestions */
 }
 
 .suggestion-item:hover {
-    background-color: #e2e6ea; /* Hintergrundfarbe beim Hover */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Schatten beim Hover */
+    background-color: #e2e6ea; /* Background colour on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow on hover */
 }
 
 .suggestion-item {
     padding: 15px; 
-    margin: 5px 0; /* Abstand zw. Vorschlägen */
-    border: 1px solid #ccc; /* Rand um jeden Vorschlag */
+    margin: 5px 0; /* space between suggestions */
+    border: 1px solid #ccc; /* Border around each suggestion */
     border-radius: 4px; 
-    background-color: #ffffff; /* Weißer Hintergrund */
-    cursor: pointer; /* Zeigt an, dass es klickbar ist */
-    transition: background-color 0.2s; /* Animation bei Hover */
-    word-wrap: break-word; /* Zeilenumbrüche */
-    max-width: 100%; /* Maximalbreite */
-    overflow-wrap: break-word; /* Zeilenumbruch */
+    background-color: #ffffff; /* White background  */
+    cursor: pointer; /* Indicates that the item is clickable */
+    transition: background-color 0.2s; /* Animation on Hover */
+    word-wrap: break-word; /* Line break */
+    max-width: 100%; /* Maximum widht */
+    overflow-wrap: break-word; /* line break */
 }
 
 #generated-texts p {
-    background-color: #f8f9fa; /* Hellgraue Hintergrundfarbe */
-    border: 1px solid #ddd; /* Hellerer Rand */
+    background-color: #f8f9fa; /* Light grey background colour */
+    border: 1px solid #ddd; /* Lighter border */
     border-radius: 4px; 
     padding: 10px; 
-    margin: 10px 0; /* Abstand zw. Vorschlägen */
-    transition: background-color 0.3s; /* Sanfter Übergang */
+    margin: 10px 0; /* Distance between suggestions */
+    transition: background-color 0.3s; /* Smooth transition */
 }
 
 #generated-texts p:hover {
-    background-color: #e2e6ea; /* Dunklere Hintergrundfarbe beim Hover */
+    background-color: #e2e6ea; /* Darker background colour on hover */
 }
 
 .suggestion-list ul {
     padding: 1px;
     border-radius: 4px;
     background-color: #f8f9fa;
-    overflow-y: hidden; /* Verhindert Scrollen */
-    white-space: normal; /* Erlaubt Zeilenumbruch */
-    word-wrap: break-word; /* Erzwingt Umbrüche bei langen Wörtern */
+    overflow-y: hidden; /*  Prevents scrolling */
+    white-space: normal; /* Allows line breaks */
+    word-wrap: break-word; /* Forces line breaks for long words */
 }
 
 .suggestion-list li {
-    list-style: none; /* Entfernung Aufzählungszeichen */
+    list-style: none; /* bullet point removal */
     padding: 10px;
-    background-color: #e9ecef; /* Grauer Hintergrund*/
+    background-color: #e9ecef; /* Grey background */
     border-radius: 4px;
     font-size: 1rem;
 }
 
 .suggestion-list {
-    max-height: none; /* Entfernt Höheneinschränkung sodass Box wächst */
+    max-height: none; /* Removes height restriction so box grows */
 }
 
-/* Abstand zwischen der Textarea und dem Auswahlfeld für die Stimmung */
+/* Space between the text area and the selection field for the mood */
 .input-section label {
-    margin-top: 20px; /* Abstand über dem Label */
-    display: block; /* Sicherstellen, dass das Label block-level ist */
+    margin-top: 20px; /* Space above the label */
+    display: block; /* Ensure that the label is block-level */
 }
 
 #input-field {
-    margin-bottom: 20px; /* Abstand unter der Textarea */
-}
-
-#history-section {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 20px; /* Abstand nach oben */
-}
-
-#history-list {
-    list-style-type: none; /* Entfernt Aufzählungspunkte */
-    padding: 0;
-}
-
-#history-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc; /* Linie zwischen Einträgen */
-}
-
-#history-list li:last-child {
-    border-bottom: none; /* Entfernt die letzte Linie */
+    margin-bottom: 20px; /* Space below the textarea */
 }
 
 .spinner {

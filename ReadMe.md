@@ -39,46 +39,77 @@ This section outlines the functionality that each component of the system implem
 
 ![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
 
-### How to start the app:
+
+
+
+## 🚀 How to Get Started
+
+Follow these steps to deploy the application using **Minikube** and **Kubernetes**.
+
+### 1. Start Minikube with Ingress Enabled
+Start your Minikube cluster with enough memory and CPU, and enable the Ingress addon:
 
 ```
-## Start Deployment
-
 minikube start --memory=7790 --cpus=8 --addons=Ingress 
 minikube addons enable ingress
+```
 
-## Send env variables
+### 2. Set Environment Variables
+Start your Minikube cluster with enough memory and CPU, and enable the Ingress addon:
+
+```
 @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
 #or 
 & minikube docker-env | Invoke-Expression
 # or
 minikube docker-env
-
-# create namespace for application
+```
+### 3. Create a Namespace for the Application
+```
 kubectl create namespace ms
+```
 
-##Deploy llm --> see read.me in folder llm
+### 4. Deploy the Large Language Model (LLM)
+Refer to the README in the llm folder for deployment instructions.
 
-##Deploy tts in folder tts-service
+### 5. Deploy the Text-to-Speech (TTS) Service
+Build and deploy the TTS service within the tts-service folder:
+```
 docker build --no-cache -t tts-service .
 kubectl apply -f tts-deployment.yaml -n ms
 kubectl apply -f tts-service.yaml -n ms
+```
 
-#Build other deployments and services
+### 6. Build and Deploy Other Services in the following order
+```
 docker build --no-cache -t my-super-web-app .
 kubectl apply -f mariadb-deployment.yaml -n ms
 kubectl apply -f k8s-mariadb-service.yaml -n ms
 kubectl apply -f app-deployment-minikube.yaml -n ms
 kubectl apply -f app-service-and-ingress.yaml -n ms
+```
+
+### 7. Access the Web App
+To access the deployed web application, use the following command to retrieve the URL:
+```
+minikube service my-super-app-service --url
+```
 
 
+### 🧹 How to Undeploy
+Delete the entire namespace and everything inside it:
+```
+kubectl delete namespace ms
+```
+Or if you want to delete them manually:
+```
+kubectl delete service my-app-mariadb-service -n ms
+kubectl delete service my-super-app-service -n ms
+kubectl delete service tts-service -n ms
+kubectl delete service ollama -n ms
 
-##Start website connection
-minikube service -n ms my-super-app-service --url
-
-##Undeploy
-kubectl delete -f app-service-and-ingress.yaml -n ms
-kubectl delete -f app-deployment-minikube.yaml -n ms
-kubectl delete -f k8s-mariadb-service.yaml -n ms
-kubectl delete -f mariadb-deployment.yaml -n ms
+kubectl delete deployment mariadb-deployment -n ms
+kubectl delete deployment my-super-app-deployment -n ms
+kubectl delete deployment tts-deployment -n ms
+kubectl delete deployment ollama -n ms
 ```

@@ -74,7 +74,7 @@ kubectl apply -f app-service-and-ingress.yaml -n ms
 
 
 ##Start website connection
-minikube service my-super-app-service --url
+minikube service -n ms my-super-app-service --url
 
 ##Undeploy
 kubectl delete -f app-service-and-ingress.yaml -n ms

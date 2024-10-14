@@ -11,7 +11,6 @@ This section outlines the functionality that each component of the system implem
 - **Text Preview**: Users can preview the generated text before converting it to audio.
 - **Motivational Speech Suggestions**: Pre-stored motivational speeches are fetched from the database as suggestions.
 - **Play Audio Button**: Users can listen to the generated motivational speech.
-- **Download Audio Button**: Users can download the generated speech in audio format.
 
 ### 🧠 **Large-Language-Model (LLM)**
 - **Input**: User input combined with a chosen mood.
@@ -19,7 +18,7 @@ This section outlines the functionality that each component of the system implem
 
 ### 🔊 **Text-to-Speech (TTS)**
 - **Input**: The generated motivational speeches from the LLM.
-- **Output**: An audio file (e.g., MP3 or WAV format) of the speech.
+- **Output**: An audio file (WAV format) of the speech.
 
 ### 🗄️ **Database with Cache**
 - **Storage**: Stores user queries, generated speeches, and their respective audio files.
@@ -28,9 +27,11 @@ This section outlines the functionality that each component of the system implem
 ### 🔀 **Loadbalancer**
 - **Ingress Loadbalancer**: Routes external traffic to the web application within the Kubernetes cluster.
 
+
 ## 🏗️ Architecture
 
 ![architecture_motivational_speech_service](https://github.com/user-attachments/assets/6dd2ddd6-db22-4c8f-bf07-d957e3009a97)
+
 
 
 ## 💻 The application

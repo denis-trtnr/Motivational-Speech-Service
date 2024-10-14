@@ -150,3 +150,10 @@ kubectl delete deployment my-super-app-deployment -n ms
 kubectl delete deployment tts-deployment -n ms
 kubectl delete deployment ollama -n ms
 ```
+
+## 🛠️ Created By
+
+- Julia Hanak
+- Julia Wellbrink
+- Gurleen Kaur
+- Denis Trautner

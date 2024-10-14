@@ -16,10 +16,8 @@ processor = AutoProcessor.from_pretrained("suno/bark")
 device = "cpu"
 model = model.to(device)
 sampling_rate = model.generation_config.sample_rate
-
-# Ensure the results folder exists
-if not os.path.exists('results'):
-    os.makedirs('results')
+os.environ["SUNO_OFFLOAD_CPU"] = "True"
+os.environ["SUNO_USE_SMALL_MODELS"] = "True"
 
 @app.route('/tts', methods=['POST'])
 def text_to_speech():

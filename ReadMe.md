@@ -1,55 +1,42 @@
-# Cloud Application: Motivational Speech
+# Motivational Speech Generation Service
 
-Idea: Cloud Service Application which creates a motivation speech for the user. 
-The user can have a text created for the speech and can provide some input and select a mood. 
-After text creation the user can review the text, can give feedback to the text and can generate an audio from this text.
-The user also have the opportunity to choose from a suggestion list with motivation speeches, that are stored in the database.
+The following cloud application provides a motivational speech generation platform, leveraging a Large-Language Model (LLM) and Text-to-Speech (TTS) technology. The user can have a text created for the speech and can provide some input and select a mood. After text creation the user can review the text, can give feedback to the text and can generate an audio from this text. The user also have the opportunity to choose from a suggestion list with motivation speeches, that are stored in the database.
 
-Components:
-- User Interface
-- Large-Language-Model
-- Text-To-Speech
-- Database with Cache
-- Loadbalancer
+## 📋 Concrete Features
 
-![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
+This section outlines the functionality that each component of the system implements:
 
+### 🎨 **User Interface**
+- **Text Generator**: Users can input text and select a mood to generate motivational speeches.
+- **Text Preview**: Users can preview the generated text before converting it to audio.
+- **Motivational Speech Suggestions**: Pre-stored motivational speeches are fetched from the database as suggestions.
+- **Play Audio Button**: Users can listen to the generated motivational speech.
+- **Download Audio Button**: Users can download the generated speech in audio format.
 
-## Concrete Features
+### 🧠 **Large-Language-Model (LLM)**
+- **Input**: User input combined with a chosen mood.
+- **Output**: Custom-generated motivational speeches tailored to the input and mood.
 
-This section describes the feature / funconality that the components realize.
+### 🔊 **Text-to-Speech (TTS)**
+- **Input**: The generated motivational speeches from the LLM.
+- **Output**: An audio file (e.g., MP3 or WAV format) of the speech.
 
+### 🗄️ **Database with Cache**
+- **Storage**: Stores user queries, generated speeches, and their respective audio files.
+- **Caching**: Uses Memcached to optimize access and retrieval of frequently used data.
 
-### User Interface 
-- Text generator with input and mood field
-- Text preview for audio generating
-- Motivation speech suggestion from database
-- Button to play audio
-- Button to download audio 
+### 🔀 **Loadbalancer**
+- **Ingress Loadbalancer**: Routes external traffic to the web application within the Kubernetes cluster.
 
-
-### Large-Language-Model 
-- Input: User input and choosen mood
-- Output: Motivational speechs
-
-
-### Text-To-Speech 
-- Input: Motivational speechs
-- Output: Audiofile
-
-
-### Database with Cache 
-- Stores queries, speeches and audios
-
-
-### Loadbalancer 
-- Ingress Loadbalancer for the Webapp
-
+## 🏗️ Architecture
 
 ![architecture_motivational_speech_service](https://github.com/user-attachments/assets/6dd2ddd6-db22-4c8f-bf07-d957e3009a97)
 
 
+## 💻 The application
 
+
+![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
 
 ### How to start the app:
 

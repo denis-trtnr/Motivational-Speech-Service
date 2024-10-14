@@ -71,7 +71,7 @@ kubectl create namespace ms
 
 ##Deploy llm --> see read.me in folder llm
 
-##Deploy tts in folder tts 
+##Deploy tts in folder tts-service
 docker build --no-cache -t tts-service .
 kubectl apply -f tts-deployment.yaml -n ms
 kubectl apply -f tts-service.yaml -n ms

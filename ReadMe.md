@@ -36,10 +36,16 @@ This section outlines the functionality that each component of the system implem
 
 
 
-## 💻 Mockup
+## 🎨 Initial Mockup
 
 
 ![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
+
+
+## 💻 User Interface
+
+![UI](https://github.com/user-attachments/assets/2c601b92-6060-4a8f-8ed9-d52a82a07dc1)
+
 
 
 ## 📹 Screencast

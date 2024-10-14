@@ -246,25 +246,3 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
         document.getElementById('loading-spinner').style.display = 'none';
     }
 });
-
-/*
-document.getElementById('play-audio-btn').addEventListener('click', function() {
-    const selectedTextElement = document.querySelector('.suggestion-list ul li');
-    const selectionText = selectedTextElement ? selectedTextElement.innerText : 'Keine Auswahl';
-
-    if ('speechSynthesis' in window) {
-        // Instanz von SpeechSynthesisUtterance erstellen
-        const utterance = new SpeechSynthesisUtterance(selectionText);
-
-        // Einstellungen für Stimme und Geschwindigkeit
-        utterance.rate = 0.9; // Geschwindigkeit
-        utterance.pitch = 1; // Tonhöhe
-        utterance.volume = 1; // Lautstärke
-
-        // Startet die Sprachausgabe
-        window.speechSynthesis.speak(utterance);
-    } else {
-        alert('Web Speech API wird von diesem Browser nicht unterstützt.');
-    }
-});
-*/

@@ -70,7 +70,27 @@ kubectl create namespace ms
 ```
 
 ### 4. Deploy the Large Language Model (LLM)
-Refer to the README in the llm folder for deployment instructions.
+Deploy the LLM Service within the llm folder.
+
+First install helm on the machine (https://helm.sh/) and use the helm chart for ollama (https://github.com/otwld/ollama-helm)
+```
+helm repo add ollama-helm https://otwld.github.io/ollama-helm/  
+
+helm repo update  
+
+helm install ollama ollama-helm/ollama --namespace ms
+```
+
+Modify the values.yaml to modify the helm chart. Right now we have defined which models should be pulled at the startup of the container. There could be added more models. (Motivational-Speech-Service\llm\values.yaml)
+```
+helm repo update 
+
+# navigate to the folder where the values.yaml is stored: /llm  
+
+helm upgrade ollama ollama-helm/ollama --namespace ms --values values.yaml
+```
+The pod needs a few minutes to come up, because the model is already
+
 
 ### 5. Deploy the Text-to-Speech (TTS) Service
 Build and deploy the TTS service within the tts-service folder:

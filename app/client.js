@@ -7,12 +7,10 @@ function updateSuggestion() {
         inputField.value = words.slice(0, 3).join(' ');
         alert("You can only enter a maximum of 3 words."); // Feedback
     }
-
 }
 
 // Function for retrieving input data, generating and saving the motivational speech
 async function generateText() {
-
     document.getElementById('loading-spinner-generator').style.display = 'block';
 
     const inputField = document.getElementById("input-field").value;
@@ -27,7 +25,6 @@ async function generateText() {
 
     // Generate the motivational speeches
     const generatedSpeech = await generateSpeech(prompt2)
-
     document.getElementById("generated-text-1").innerText = extractCleanText(generatedSpeech);
 
     // Data to save
@@ -36,11 +33,8 @@ async function generateText() {
         mood: moodSelect,
         speech_proposal: extractCleanText(generatedSpeech)
     };
-
     await saveData(data)
-
     document.getElementById('loading-spinner-generator').style.display = 'none';
-
 }
 
 // Function to format the response text from llm
@@ -50,10 +44,8 @@ function extractCleanText(jsonString) {
     return cleanText;
 }
 
-
 // Function to call the LLM-API at server and generate the speech
 async function generateSpeech(prompt) {
-
     try {
         const response = await fetch('/api/generate', {
             method: 'POST',
@@ -77,7 +69,6 @@ async function generateSpeech(prompt) {
 
 // Function to call the Database-API at server and save the data
 async function saveData(data_db){
-
     fetch('/api/speeches', {
         method: 'POST',
         headers: {
@@ -138,7 +129,6 @@ async function generateAudio(text, speaker = null) {
 function selectSuggestion(element) {
     const selectedText = element.innerText; 
     const selectionList = document.querySelector('.suggestion-list ul');
-
     selectionList.innerHTML = `<li>${selectedText}</li>`;
 }
 
@@ -149,56 +139,17 @@ document.querySelectorAll('#generated-texts p').forEach(p => {
     });
 });
 
-document.getElementById('download-btn').addEventListener('click', function() {
-    // Holt Text aus Auswahlbox (z.B. erster Listeneintrag)
-   const selectionText = document.getElementById('generated-text-1').innerText;
-
-    // Erstelle Blob-Objekt mit dem Text
-    const blob = new Blob([selectionText], { type: 'text/plain' });
-
-    // Erstelle Download-Link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = window.URL.createObjectURL(blob);
-    downloadLink.download = 'auswahl.txt';  // Dateiname
-
-    // Fügt Link dem Dokument hinzu und simuliert Klick darauf
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-
-    // Entfernt Link nach Download
-    document.body.removeChild(downloadLink);
-});
-
-
 function selectSuggestion(element) {
     const selectedText = element.innerText;
     const selectionList = document.querySelector('.suggestion-list ul');
 
-    // Text in Auswahl-Liste setzen
+    //   Set text in selection list
     selectionList.innerHTML = `<li>${selectedText}</li>`;
 
-    // Dynamische Anpassung Höhe
+    // Dynamic height adjustment
     const listItem = selectionList.querySelector('li');
     listItem.style.height = 'auto'; // Höhe = automatisch Textlänge
 }
-
-// Funktioniert noch nicht
-document.getElementById("download-audio").addEventListener("click", function () {
-    const audioElement = document.getElementById("audio-element"); // Audio-Element
-    if (audioElement) {
-        const audioSrc = audioElement.src;
-
-        // Erstellt "a"-Tag dynamisch, um Download-Link zu erzeugen
-        const downloadLink = document.createElement("a");
-        downloadLink.href = audioSrc;
-        downloadLink.download = "audio-file.mp3"; // Name der heruntergeladenen Datei
-
-        // Simuliert Klick, um Download zu starten
-        downloadLink.click();
-    } else {
-        alert("Kein Audio vorhanden zum Herunterladen.");
-    }
-});
 
 // Event listener for the "Generate Audio" button
 document.getElementById('play-audio-btn').addEventListener('click', async function () {
@@ -214,12 +165,9 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     
     // Hide the audio element and the download button until audio is ready
     document.getElementById('audioOutput').style.display = 'none';
-    document.getElementById('download-audio').style.display = 'none';
 
-    //TODO: Replace static strings
     try {
         // Call the TTS API to generate the audio
-
         const audioBlob = await generateAudio(generatedText);
         
         // Create a URL for the audio and set it for the "audio" element to play

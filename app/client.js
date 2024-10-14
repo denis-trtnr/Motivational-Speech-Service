@@ -25,13 +25,6 @@ async function generateText() {
     const generatedSpeech = await generateSpeech(prompt)
     document.getElementById("generated-text-1").innerText = extractCleanText(generatedSpeech);
 
-    // Data to save
-    const data = {
-        input: inputField,
-        mood: moodSelect,
-        speech_proposal: extractCleanText(generatedSpeech)
-    };
-    await saveData(data)
     document.getElementById('loading-spinner-generator').style.display = 'none';
 }
 
@@ -137,18 +130,6 @@ document.querySelectorAll('#generated-texts p').forEach(p => {
     });
 });
 
-function selectSuggestion(element) {
-    const selectedText = element.innerText;
-    const selectionList = document.querySelector('.suggestion-list ul');
-
-    //   Set text in selection list
-    selectionList.innerHTML = `<li>${selectedText}</li>`;
-
-    // Dynamic height adjustment
-    const listItem = selectionList.querySelector('li');
-    listItem.style.height = 'auto'; // Höhe = automatisch Textlänge
-}
-
 // Event listener for the "Generate Audio" button
 document.getElementById('play-audio-btn').addEventListener('click', async function () {
     const generatedText = document.getElementById('generated-text-1').textContent.trim();
@@ -175,6 +156,16 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
         const audioElement = document.getElementById('audioOutput');
         audioElement.src = audioUrl;
         audioElement.style.display = 'block';  // Show the audio player
+
+        // Data to save
+        const data = {
+            input: inputField,
+            mood: moodSelect,
+            speech_proposal: extractCleanText(generatedSpeech),
+            audio_file: audioBlob
+        };
+
+        await saveData(data)
 
         // Auto-play the audio after it's generated
         audioElement.play();

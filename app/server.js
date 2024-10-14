@@ -32,7 +32,7 @@ const pool = mariadb.createPool({
 app.get('/api/speeches', async (req, res) => {
 
     let connection
-    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches ORDER BY ID DESC LIMIT 3 ;'
+    let query = 'SELECT input, mood, speech_proposal, audio_file FROM motivational_speeches ORDER BY ID DESC LIMIT 3 ;'
 
     try {
         connection = await pool.getConnection()
@@ -96,8 +96,8 @@ app.post('/api/speeches', async (req, res) => {
     let connection;
     try {
         connection = await pool.getConnection();
-        const query = 'INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES (?, ?, ?)';
-        await connection.query(query, [input, mood, speech_proposal]);
+        const query = 'INSERT INTO motivational_speeches (input, mood, speech_proposal, audio_file) VALUES (?, ?, ?, LOAD_FILE(?))';
+        await connection.query(query, [input, mood, speech_proposal, audio_file]);
         res.status(201).send('Data successfully saved');
     } catch (error) {
         console.error('Error when saving the data: ', error);

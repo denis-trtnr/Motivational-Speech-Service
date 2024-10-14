@@ -89,7 +89,7 @@ helm repo update
 
 helm upgrade ollama ollama-helm/ollama --namespace ms --values values.yaml
 ```
-The pod needs a few minutes to come up, because the model is already
+The pod needs a few minutes to come up, because the model is already pulled.
 
 
 ### 5. Deploy the Text-to-Speech (TTS) Service

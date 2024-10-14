@@ -65,28 +65,31 @@ minikube addons enable ingress
 # or
 minikube docker-env
 
+# create namespace for application
+kubectl create namespace ms
+
 ##Deploy llm --> see read.me in folder llm
 
 ##Deploy tts in folder tts 
 docker build --no-cache -t tts-service .
-kubectl apply -f tts-deployment.yaml
-kubectl apply -f tts-service.yaml
+kubectl apply -f tts-deployment.yaml -n ms
+kubectl apply -f tts-service.yaml -n ms
 
 #Build other deployments and services
 docker build --no-cache -t my-super-web-app .
-kubectl apply -f mariadb-deployment.yaml
-kubectl apply -f k8s-mariadb-service.yaml
-kubectl apply -f app-deployment-minikube.yaml
-kubectl apply -f app-service-and-ingress.yaml
+kubectl apply -f mariadb-deployment.yaml -n ms
+kubectl apply -f k8s-mariadb-service.yaml -n ms
+kubectl apply -f app-deployment-minikube.yaml -n ms
+kubectl apply -f app-service-and-ingress.yaml -n ms
 
 
 
 ##Start website connection
-minikube service my-super-app-service --url 
+minikube service my-super-app-service --url
 
 ##Undeploy
-kubectl delete -f app-service-and-ingress.yaml
-kubectl delete -f app-deployment-minikube.yaml
-kubectl delete -f k8s-mariadb-service.yaml
-kubectl delete -f mariadb-deployment.yaml
+kubectl delete -f app-service-and-ingress.yaml -n ms
+kubectl delete -f app-deployment-minikube.yaml -n ms
+kubectl delete -f k8s-mariadb-service.yaml -n ms
+kubectl delete -f mariadb-deployment.yaml -n ms
 ```

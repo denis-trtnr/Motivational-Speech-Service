@@ -2,6 +2,8 @@
 
 The following cloud application provides a motivational speech generation platform, leveraging a Large-Language Model (LLM) and Text-to-Speech (TTS) technology. The user can have a text created for the speech and can provide some input and select a mood. After text creation the user can review the text, can give feedback to the text and can generate an audio from this text. The user also have the opportunity to choose from a suggestion list with motivation speeches, that are stored in the database.
 
+
+
 ## 📋 Concrete Features
 
 This section outlines the functionality that each component of the system implements:
@@ -40,7 +42,9 @@ This section outlines the functionality that each component of the system implem
 ![image](https://github.com/user-attachments/assets/68b8af22-963e-478f-ada5-5be8d000142a)
 
 
+## 📹 Screencast
 
+[Watch the video](Screencast.mp4)
 
 ## 🚀 How to Get Started
 

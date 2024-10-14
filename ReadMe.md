@@ -46,8 +46,9 @@ This section describes the feature / funconality that the components realize.
 - Ingress Loadbalancer for the Webapp
 
 
+![architecture_motivational_speech_service](https://github.com/user-attachments/assets/6dd2ddd6-db22-4c8f-bf07-d957e3009a97)
 
-  ![image](https://github.com/user-attachments/assets/bbd017e6-d451-45e6-af28-1a78a0b5d582)
+
 
 
 ### How to start the app:

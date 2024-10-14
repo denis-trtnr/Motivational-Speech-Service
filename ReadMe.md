@@ -43,47 +43,45 @@ This section describes the feature / funconality that the components realize.
 
 
 ### Loadbalancer 
-- Loadbalancer for all components (LLS, TTS, Cache)
+- Ingress Loadbalancer for the Webapp
 
 
 
   ![image](https://github.com/user-attachments/assets/bbd017e6-d451-45e6-af28-1a78a0b5d582)
 
 
-### How to start that shit:
-```
-minikube start --addons=Ingress
-& minikube docker-env | Invoke-Expression
-# oder
-minikube docker-env
-```
+### How to start the app:
 
 ```
-## Deployment starten
+## Start Deployment
 
-## Cluster IP in server.js für ollama API anpassen (Zeile 90)
-
-minikube start --addons=Ingress
+minikube start --memory=7790 --cpus=8 --addons=Ingress 
 minikube addons enable ingress
+
+## Send env variables
 @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
+#or 
+& minikube docker-env | Invoke-Expression
+# or
+minikube docker-env
+
+##Deploy llm --> see read.me in folder llm
+
+##Deploy tts in folder tts 
+docker build --no-cache -t tts-service .
+kubectl apply -f tts-deployment.yaml
+kubectl apply -f tts-service.yaml
+
+#Build other deployments and services
 docker build --no-cache -t my-super-web-app .
 kubectl apply -f mariadb-deployment.yaml
 kubectl apply -f k8s-mariadb-service.yaml
 kubectl apply -f app-deployment-minikube.yaml
 kubectl apply -f app-service-and-ingress.yaml
-kubectl get all
 
-##Testdaten anlegen (solange wir noch nichts in die DB speichern
-kubectl get pods
-kubectl exec -ti <mariadb-deployment-POD-ID> -- mariadb -u root --password=mysecretpw
-USE motivationalspeechsdb;
-INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 1', 'sad', 'LALALA');
-INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 2', 'sad', 'LALALA');
-INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES ('Test 3', 'sad', 'LALALA');
-SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 10;
-exit
 
-##Webseite öffnen --> da werden jetzt die eingefügten Daten angezeigt
+
+##Start website connection
 minikube service my-super-app-service --url 
 
 ##Undeploy

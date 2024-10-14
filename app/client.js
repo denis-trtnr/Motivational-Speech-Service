@@ -1,3 +1,4 @@
+// Function to observe the input field
 function updateSuggestion() {
     const inputField = document.getElementById("input-field");
     const words = inputField.value.trim().split(/\s+/);
@@ -9,7 +10,10 @@ function updateSuggestion() {
 
 }
 
+// Function for retrieving input data, generating and saving the motivational speech
 async function generateText() {
+
+    document.getElementById('loading-spinner-generator').style.display = 'block';
 
     const inputField = document.getElementById("input-field").value;
     const moodSelect = document.getElementById("mood-select").value;
@@ -17,64 +21,37 @@ async function generateText() {
 
     suggestionText.innerText = `Generated speech based of: "${inputField}", "${moodSelect}"`;
 
-
-    // Generate 3 different prompts with the users input
-    const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
-    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long.';
-    const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
+    //const prompt1 = 'My mood right now is '+ moodSelect + '. Based on the childrens books about Connie. Write me a short motivational Connie story using the following keywords: '+ inputField +'. Then, at the end, say that the person can overcome their problem just like Connie. Please answer in english.';
+    const prompt2 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational speech in the context of the following three words: '+ inputField +'? The speech should be between 60 and 100 characters long and should not contain smileys or special characters.';
+    // const prompt3 = 'My mood right now is '+ moodSelect + '. Can you write me a short motivational rhyme or poem to inspire me? The context of the rhyme/poem should include the following three words: '+ inputField +'.';
 
     // Generate the motivational speeches
     const generatedSpeech = await generateSpeech(prompt2)
 
-
-    // update generierter Text in p-elements
     document.getElementById("generated-text-1").innerText = extractCleanText(generatedSpeech);
 
-
-    // Die Daten, die an den Server gesendet werden sollen
+    // Data to save
     const data = {
         input: inputField,
         mood: moodSelect,
         speech_proposal: extractCleanText(generatedSpeech)
     };
 
-    // Daten an den Server senden
-    fetch('/api/speeches', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.text();
-            }
-            throw new Error('Fehler beim Speichern der Daten');
-        })
-        .then(result => {
-            console.log(result);
-            // Erfolgreiches Speichern
-            alert('The speech has been successfully saved!');
-        })
-        .catch(error => {
-            console.error('Fehler:', error);
-            alert('Error when saving the speech.');
-        });
+    await saveData(data)
+
+    document.getElementById('loading-spinner-generator').style.display = 'none';
+
 }
 
+// Function to format the response text from llm
 function extractCleanText(jsonString) {
-    // 1. Entferne alle Backslashes, geschweifte Klammern, Anführungszeichen und Zeilenumbrüche
-    let cleanText = jsonString.replace(/[\\{}"\n\r]/g, '');
-
-    // 2. Entferne unnötige Leerzeichen, indem du mehrere Leerzeichen durch ein einzelnes ersetzt
+    let cleanText = jsonString.replace(/[^\w\s.,:!?'-]/g, '');
     cleanText = cleanText.replace(/\s+/g, ' ').trim();
-
     return cleanText;
 }
 
 
-
+// Function to call the API at server and generate the speech
 async function generateSpeech(prompt) {
 
     try {
@@ -91,13 +68,40 @@ async function generateSpeech(prompt) {
         }
 
         const data = await response.json();
-        return data.response; // Die generierte Rede
+        return data.response;
 
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
+// Function to call the API at server and save the data
+async function saveData(data_db){
+
+    fetch('/api/speeches', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data_db),
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            }
+            throw new Error('Error while saving the data');
+        })
+        .then(result => {
+            console.log(result);
+            alert('The speech has been successfully saved!');
+        })
+        .catch(error => {
+            console.error('Error: ', error);
+            alert('Error when saving the speech.');
+        });
+}
+
+// Function to call the API at server and generate the audio
 async function generateAudio(text, speaker = null) {
     const requestBody = {
         text: text,
@@ -129,52 +133,16 @@ async function generateAudio(text, speaker = null) {
     }
 }
 
-/*
-async function saveData(){
 
-     // Die Daten, die an den Server gesendet werden sollen
-      const data_db = {
-          input: inputField,
-          mood: moodSelect,
-          speech_proposal: generatedSpeech1
-      };
-
-      // Daten an den Server senden
-      fetch('/api/speeches', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data_db),
-      })
-      .then(response => {
-          if (response.ok) {
-              return response.text();
-          }
-          throw new Error('Fehler beim Speichern der Daten');
-      })
-      .then(result => {
-          console.log(result);
-          // Erfolgreiches Speichern
-          alert('Die Rede wurde erfolgreich gespeichert!');
-      })
-      .catch(error => {
-          console.error('Fehler:', error);
-          alert('Fehler beim Speichern der Rede.');
-      });
-
-}*/
-
-//Funktion um Auswahl zu treffen
+// Function for user selection
 function selectSuggestion(element) {
     const selectedText = element.innerText; 
     const selectionList = document.querySelector('.suggestion-list ul');
-    
-    // Text in Auswahlliste setzen
+
     selectionList.innerHTML = `<li>${selectedText}</li>`;
 }
 
-// Event Listener für die Vorschläge
+// Event Listener for the motivational speech
 document.querySelectorAll('#generated-texts p').forEach(p => {
     p.addEventListener('click', function() {
         selectSuggestion(this);
@@ -201,27 +169,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
     document.body.removeChild(downloadLink);
 });
 
-/*
-document.getElementById('play-audio-btn').addEventListener('click', function() {
-    const selectedTextElement = document.querySelector('.suggestion-list ul li');
-    const selectionText = selectedTextElement ? selectedTextElement.innerText : 'Keine Auswahl';
-
-    if ('speechSynthesis' in window) {
-        // Instanz von SpeechSynthesisUtterance erstellen
-        const utterance = new SpeechSynthesisUtterance(selectionText);
-
-        // Einstellungen für Stimme und Geschwindigkeit
-        utterance.rate = 0.9; // Geschwindigkeit
-        utterance.pitch = 1; // Tonhöhe
-        utterance.volume = 1; // Lautstärke
-
-        // Startet die Sprachausgabe
-        window.speechSynthesis.speak(utterance);
-    } else {
-        alert('Web Speech API wird von diesem Browser nicht unterstützt.');
-    }
-});
-*/
 
 function selectSuggestion(element) {
     const selectedText = element.innerText;
@@ -272,8 +219,9 @@ document.getElementById('play-audio-btn').addEventListener('click', async functi
     //TODO: Replace static strings
     try {
         // Call the TTS API to generate the audio
-        const audioBlob = await generateAudio(generatedText);
 
+        const audioBlob = await generateAudio(generatedText);
+        
         // Create a URL for the audio and set it for the "audio" element to play
         const audioUrl = URL.createObjectURL(audioBlob);
 
@@ -319,83 +267,4 @@ document.getElementById('play-audio-btn').addEventListener('click', function() {
         alert('Web Speech API wird von diesem Browser nicht unterstützt.');
     }
 });
-*/
-
-//----------------------------------------------------------------------------------------------------------------------------------
-
-/* Nutzen der Ollama Funktionen - möglich, dass erst gewisse sachen installiert werden müssen
-
-import ollama from 'ollama'
-
-// Pull funktion braucht man glaube ich garnicht - funktioniert auch ohne
-// progress = ollama.pull({
-//     model: 'llama3.2:1b',
-// })
-
-print(progress)
-
-const response = await ollama.generate({
-    model: 'llama3.2:1b',
-    prompt: 'Why is the sky blue? Answer in JSON',
-    stream: false,
-    format: 'json',
-    options: {
-        temperature: 0.8
-    } 
-})
-
-console.log(response.response); */
-
-//----------------------------------------------------------------------
-
-// Nutzen der Ollama Funktionen - aber als async Funktion - bin mir nicht sicher, was besser funktioniert.
-
-/* import ollama from 'ollama';
-
-const run = async () => {
-    const progress = await ollama.pull({
-        model: 'llama3.2:1b',
-    });
-
-    console.log(progress);
-
-    const response = await ollama.generate({
-        model: 'llama3.2:1b',
-        prompt: 'Why is the sky blue? Answer in JSON in 15 words.',
-        stream: false,
-        format: 'json' //,
-        // options: {
-        //     temperature: 0.8
-        // }
-    })
-
-    console.log(response.response)
-}
-
-run().catch(console.error) */
-
-//----------------------------------------------------------------------
-
-
-
-//man kann wahrscheinlich um den code zu vershcönern html script hier auslagern
- /* methode um die letezn Einträge zu laden und anzuzeigen
-async function loadHistory() {
-    const response = await fetch('/history');
-    const data = await response.json();
-
-    const historyList = document.getElementById('history-list');
-    historyList.innerHTML = ''; // Liste leeren
-
-    data.history.forEach((entry, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${entry}`;
-        historyList.appendChild(li);
-    });
-}
-
-// Historie beim Laden der Seite abfragen
-window.onload = function() {
-    loadHistory();
-};
 */

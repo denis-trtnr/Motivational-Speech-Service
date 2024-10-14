@@ -8,8 +8,9 @@ const PORT = process.env.PORT || 3000;
 const mariadb = require('mariadb')
 
 app.use(express.static(path.join(__dirname)));
-app.use(express.json()); // Middleware zum Verarbeiten von JSON-Daten
+app.use(express.json());
 
+// Enviroment variables to connect to the cluster container
 const ttsApiUrl = process.env.TTS_API_URL || "http://localhost:5000";
 const llmApiUrl = process.env.LLM_URL || "http://localhost:11434";
 
@@ -26,37 +27,30 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 })
 
-//Get data from database
-async function getFromDatabase() {
+
+// API to retrieve data from mariadb database
+app.get('/api/speeches', async (req, res) => {
+
     let connection
-    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches LIMIT 15;'
-    let results
+    let query = 'SELECT input, mood, speech_proposal FROM motivational_speeches ORDER BY ID DESC LIMIT 3 ;'
 
     try {
         connection = await pool.getConnection()
-        console.log("Executing query " + query)
-        results = await connection.query(query) // Abfrage ausführen und Daten holen
-        console.log('Daten abgerufen:', results)
+        const results = await connection.query(query)
+
+        return res.json(results)
+
     } catch (error) {
-        console.error('Fehler bei der Abfrage:', error)
-        throw error;
+        console.error('Error during query:', error)
+        res.status(500).send('Error when retrieving the data');
+
     } finally {
-        if (connection) connection.end() // Verbindung schließen
+        if (connection) connection.end()
     }
-    return results; // Ergebnisse zurückgeben
 
-}
-
-// API-Endpunkt, um die Daten abzurufen
-app.get('/api/speeches', async (req, res) => {
-    try {
-        const data = await getFromDatabase(); // Daten aus der Datenbank holen
-        res.json(data); // Daten als JSON an den Client senden
-    } catch (error) {
-        res.status(500).send('Fehler beim Abrufen der Daten');
-    }
 });
 
+// API to connect to text-to-speech model to generate audio-file
 app.post('/api/tts', async (req, res) => {
     try {
         const { text, speaker } = req.body;
@@ -91,39 +85,36 @@ app.post('/api/tts', async (req, res) => {
 });
 
 
-// API-Endpunkt zum Speichern von Benutzereingaben in der Datenbank
+// API to save data to mariadb database
 app.post('/api/speeches', async (req, res) => {
-    const { input, mood, speech_proposal } = req.body;  // Die Daten, die vom Client gesendet werden
+    const { input, mood, speech_proposal } = req.body;
     
     if (!input || !mood || !speech_proposal) {
-        return res.status(400).send('Fehlende Felder');
+        return res.status(400).send('Missing fields');
     }
 
     let connection;
     try {
         connection = await pool.getConnection();
         const query = 'INSERT INTO motivational_speeches (input, mood, speech_proposal) VALUES (?, ?, ?)';
-        await connection.query(query, [input, mood, speech_proposal]); // Daten in die DB einfügen
-        res.status(201).send('Daten erfolgreich gespeichert');
+        await connection.query(query, [input, mood, speech_proposal]);
+        res.status(201).send('Data successfully saved');
     } catch (error) {
-        console.error('Fehler beim Speichern der Daten:', error);
-        res.status(500).send('Fehler beim Speichern der Daten');
+        console.error('Error when saving the data: ', error);
+        res.status(500).send('Error when saving the data.');
     } finally {
         if (connection) connection.end();
     }
 });
 
-// API-Endpunkt zum Generieren der Motivationsrede
+// API to connect to ollama and generate the motivational speech
 app.post('/api/generate', async (req, res) => {
-    const { prompt } = req.body;  // Die Daten, die vom Client gesendet werden
-
-    console.log("Getting promt: "+ prompt)
+    const { prompt } = req.body;
 
     if (!prompt) {
         return res.status(400).send('Fehlende Felder');
     }
 
-    //const url = 'http://10.104.171.206:11434/api/generate';
     const headers = {
         'Content-Type': 'application/json'
     };
@@ -155,10 +146,6 @@ app.post('/api/generate', async (req, res) => {
     }
 });
 
-
-
-
-//----------------------------------------------------------------------------
 
 // Set port to start the app on
 app.set('port', (process.env.PORT || 8080))

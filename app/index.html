@@ -10,12 +10,12 @@
     <link rel="stylesheet" href="style.css"> <!-- Verlinkung CSS-Datei -->
 
     <script>
-        // Funktion, die beim Laden der Seite aufgerufen wird
+        // Function, to load the history at every reload
         window.onload = function() {
-            fetch('/api/speeches')  // API-Aufruf, um die Daten zu holen
-                .then(response => response.json())  // Antwort in JSON umwandeln
+            fetch('/api/speeches')  // API call to get the data
+                .then(response => response.json())
                 .then(data => {
-                    const container = document.getElementById('generated-texts'); // Container zum Einfügen der Daten
+                    const container = document.getElementById('generated-texts');
                     data.forEach(speech => {
                         const speechElement = document.createElement('div');
                         speechElement.innerHTML = `
@@ -23,10 +23,10 @@
                                             <p><strong>Mood:</strong> ${speech.mood}</p>
                                             <p><strong>Generated speech:</strong> ${speech.speech_proposal}</p>
                                             <hr>`;
-                        container.appendChild(speechElement); // Füge jede Rede zum Container hinzu
+                        container.appendChild(speechElement); // Add entry to history div-container
                     });
                 })
-                .catch(error => console.error('Fehler beim Abrufen der Daten:', error));
+                .catch(error => console.error('Error while retrieving the data for history: ', error));
         };
     </script>
 </head>
@@ -68,6 +68,10 @@
 
                     </select>
                     <button class="btn btn-primary mt-3" onclick="generateText()">Generate speech</button>
+                    <!-- Spinner for loading -->
+                    <div id="loading-spinner-generator" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
                 </div>
             </div>
 
@@ -75,7 +79,7 @@
             <div class="col-md-4">
                 <div class="section suggestion-list">
                     <h3>Generated speech</h3>
-                    <p id="text-suggestion">Generated speechs based of: <span id="base-text">---</span></p>
+                    <p id="text-suggestion">Generated speech based of: <span id="base-text">---</span></p>
                     <div id="generated-texts">
                         <p id="generated-text-1">--- Output ---</p>
                     </div>
